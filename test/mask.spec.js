@@ -53,6 +53,10 @@ describe('mask', function(){
 
     describe('with precision', function(){
 
+        it('set to string value "3" should change "123456789" to "123,456.789"', function(){
+            expect(mask("123456789", "3")).to.equal("123,456.789");
+        });
+
         it('set to 3 should change "123456789" to "123,456.789"', function(){
             expect(mask("123456789", 3)).to.equal("123,456.789");
         });

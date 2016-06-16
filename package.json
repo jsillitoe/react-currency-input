@@ -1,10 +1,10 @@
 {
   "name": "react-currency-input",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "description": "React component for inputing currency amounts",
   "main": "src/index.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-register"
+    "test": "mocha --compilers js:babel-register "
   },
   "repository": {
     "type": "git",
@@ -35,6 +35,10 @@
     "babel-register": "^6.9.0",
     "babelify": "^7.3.0",
     "chai": "^3.5.0",
-    "mocha": "^2.5.3"
+    "jsdom": "^9.2.1",
+    "mocha": "^2.5.3",
+    "react-addons-test-utils": "^15.1.0",
+    "sinon": "^1.17.4",
+    "sinon-chai": "^2.8.0"
   }
 }

@@ -19,7 +19,7 @@ const CurrencyInput = React.createClass({
         value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
         decimalSeparator: PropTypes.string,
         thousandSeparator: PropTypes.string,
-        precision: PropTypes.number
+        precision: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
     },
 
 
@@ -37,7 +37,7 @@ const CurrencyInput = React.createClass({
             value: "0",
             decimalSeparator: ".",
             thousandSeparator: ",",
-            precision: 2
+            precision: "2"
         }
     },
 
@@ -57,7 +57,7 @@ const CurrencyInput = React.createClass({
         delete customProps.thousandSeparator;
         delete customProps.precision;
         return {
-            maskedValue: mask(this.props.value, this.props.decimalSeparator, this.props.thousandSeparator, this.props.precision),
+            maskedValue: mask(this.props.value, this.props.precision, this.props.decimalSeparator, this.props.thousandSeparator),
             customProps: customProps
         }
     },
@@ -78,7 +78,7 @@ const CurrencyInput = React.createClass({
         delete customProps.thousandSeparator;
         delete customProps.precision;
         this.setState({
-            maskedValue: mask(nextProps.value, nextProps.decimalSeparator, nextProps.thousandSeparator, nextProps.precision),
+            maskedValue: mask(nextProps.value, nextProps.precision, nextProps.decimalSeparator, nextProps.thousandSeparator),
             customProps: customProps
         });
     },
@@ -100,7 +100,7 @@ const CurrencyInput = React.createClass({
      */
     handleChange(event){
         event.preventDefault();
-        let maskedValue = mask(event.target.value, this.props.decimalSeparator, this.props.thousandSeparator, this.props.precision);
+        let maskedValue = mask(event.target.value, this.props.precision, this.props.decimalSeparator, this.props.thousandSeparator);
         this.setState({maskedValue: maskedValue});
         this.props.onChange(maskedValue);
     },
