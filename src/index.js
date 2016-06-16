@@ -5,10 +5,7 @@
 
 import React, {PropTypes} from 'react'
 import mask from './mask'
-
-// Polyfill the Object.assign function.
-import polyfill_object_assign from './polyfill/Object.assign'
-polyfill_object_assign();
+import "babel-polyfill";
 
 
 const CurrencyInput = React.createClass({

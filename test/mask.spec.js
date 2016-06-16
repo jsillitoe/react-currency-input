@@ -1,5 +1,5 @@
 import {expect} from 'chai'
-import mask from '../lib/mask'
+import mask from '../src/mask'
 
 
 describe('mask', function(){

@@ -1,9 +1,11 @@
 {
   "name": "react-currency-input",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "React component for inputing currency amounts",
-  "main": "lib/index.js",
+  "main": "react-currency-input.js",
   "scripts": {
+    "compile": "babel src --out-file react-currency-input.js",
+    "prepublish": "npm run compile",
     "test": "mocha --compilers js:babel-register"
   },
   "repository": {
@@ -13,7 +15,10 @@
   "keywords": [
     "react",
     "es6",
-    "javascript"
+    "javascript",
+    "money",
+    "currency",
+    "i18n"
   ],
   "author": "Joe Sillitoe <jsillitoe@gmail.com>",
   "license": "MIT",
@@ -26,9 +31,12 @@
   },
   "devDependencies": {
     "babel": "^6.5.2",
+    "babel-cli": "^6.10.1",
+    "babel-polyfill": "^6.9.1",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.5.0",
     "babel-register": "^6.9.0",
+    "babelify": "^7.3.0",
     "chai": "^3.5.0",
     "mocha": "^2.5.3"
   }
