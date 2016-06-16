@@ -1,2 +1,5 @@
 src/
 test/
+.idea/
+.babelrc
+.npmignore
