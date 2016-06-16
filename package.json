@@ -1,11 +1,9 @@
 {
   "name": "react-currency-input",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "React component for inputing currency amounts",
-  "main": "react-currency-input.js",
+  "main": "src/index.js",
   "scripts": {
-    "compile": "babel src --out-file react-currency-input.js",
-    "prepublish": "npm run compile",
     "test": "mocha --compilers js:babel-register"
   },
   "repository": {
