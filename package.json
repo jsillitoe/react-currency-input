@@ -1,6 +1,6 @@
 {
   "name": "react-currency-input",
-  "version": "0.9.6",
+  "version": "1.0.0",
   "description": "React component for inputing currency amounts",
   "main": "src/index.js",
   "scripts": {
@@ -16,7 +16,8 @@
     "javascript",
     "money",
     "currency",
-    "i18n"
+    "i18n",
+    "react-component"
   ],
   "author": "Joe Sillitoe <jsillitoe@gmail.com>",
   "license": "MIT",
