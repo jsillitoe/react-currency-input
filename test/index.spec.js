@@ -60,7 +60,7 @@ describe('react-currency-input', function(){
     });
 
 
-    describe('onChange argument', function(){
+    describe('change events', function(){
 
         before('render and locate element', function() {
             this.handleChange = sinon.spy();
@@ -75,11 +75,26 @@ describe('react-currency-input', function(){
             );
         });
 
-        it('<CurrencyInput> should call onChange', function() {
+        it('should call onChange', function() {
             this.inputComponent.value=123456789;
             ReactTestUtils.Simulate.change(this.inputComponent);
             expect(this.handleChange).to.have.been.calledWith("1,234,567.89");
         });
+
+
+        it('should change the masked value', function() {
+            this.inputComponent.value=123456789;
+            ReactTestUtils.Simulate.change(this.inputComponent);
+            expect(this.renderedComponent.getMaskedValue()).to.equal("1,234,567.89");
+        });
+
+
+        it('should change the component value', function() {
+            this.inputComponent.value=123456789;
+            ReactTestUtils.Simulate.change(this.inputComponent);
+            expect(this.inputComponent.value).to.equal("1,234,567.89");
+        });
+
 
     });
 

@@ -1,4 +1,8 @@
+example/
+node_modules/
+src/
 test/
 .idea/
 .babelrc
 .npmignore
+.gitignore
