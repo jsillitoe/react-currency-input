@@ -18,16 +18,20 @@ import React from 'react'
 import CurrencyInput from 'react-currency-input';
 
 const MyApp = React.createClass({
-  handleChange(newValue){
-    console.log(newValue)
-  }
-  render() {
-    return (
-      <div>
-        <CurrencyInput value="0" onChange={this.handleChange}/>
-      </div>
-    );
-  }
+    getInitialState(){
+        return ({amount: "0.00"});
+    },
+  
+    handleChange(newValue){
+        this.setState({amount: newValue});
+    }
+    render() {
+        return (
+            <div>
+                <CurrencyInput value={this.state.amount} onChange={this.handleChange}/>
+            </div>
+        );
+    }
 }
 export default MyApp
 ```
@@ -40,17 +44,17 @@ import React from 'react'
 import CurrencyInput from 'react-currency-input';
 
 const MyApp = React.createClass({
-  handleSubmit(event){
-    event.preventDefault();
-    console.log(this.refs.myinput.getMaskedValue())
-  }
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <CurrencyInput value="0" ref="myinput" />
-      </form>
-    );
-  }
+    handleSubmit(event){
+        event.preventDefault();
+        console.log(this.refs.myinput.getMaskedValue())
+    }
+    render() {
+        return (
+            <form onSubmit={this.handleSubmit}>
+                <CurrencyInput ref="myinput" />
+            </form>
+        );
+    }
 }
 export default MyApp
 ```
@@ -63,25 +67,25 @@ export default MyApp
 Specify custom decimal and thousand separators:
 ```javascript
     // 1.234.567,89
-    <CurrencyInput decimalSeparator="," thousandSeparator="." value="0" onChange={this.handleChange} />
+    <CurrencyInput decimalSeparator="," thousandSeparator="." />
 ```
 
 Specify a specific precision:
 ```javascript
     // 123,456.789
-    <CurrencyInput precision="3" value="0" onChange={this.handleChange} />
+    <CurrencyInput precision="3" />
 ```
 
 ```javascript
     // 123,456,789
-    <CurrencyInput precision="0" value="0" onChange={this.handleChange} />
+    <CurrencyInput precision="0" />
 ```
 
 
 All other attributes are applied to the input element.  For example, you can integrate bootstrap styling:
 
 ```javascript
-    <CurrencyInput className="form-control" value="0" onChange={this.handleChange} />
+    <CurrencyInput className="form-control" />
 ```
 
 
