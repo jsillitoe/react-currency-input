@@ -1,13 +1,16 @@
 {
   "name": "react-currency-input",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "React component for inputing currency amounts",
-  "main": "react-currency-input.js",
+  "main": "lib/index.js",
   "scripts": {
+    "lint": "eslint src/**",
+    "lib": "rimraf lib && npm run babel",
+    "babel": "babel --out-dir lib src",
+    "build": "npm run lib",
+    "prepublish": "npm run build",
     "build-example": "browserify example/example.js -o example/bundle.js -t [ babelify --presets [ es2015 react ] ]",
-    "test": "mocha --compilers js:babel-register ",
-    "prepublish": "npm run compile",
-    "compile": "browserify src/index.js -o react-currency-input.js -t [ babelify --presets [ es2015 react ] ]"
+    "test": "mocha --compilers js:babel-register "
   },
   "repository": {
     "type": "git",
@@ -28,23 +31,23 @@
     "url": "https://github.com/jsillitoe/react-currency-input/issues"
   },
   "homepage": "https://github.com/jsillitoe/react-currency-input#readme",
-
   "peerDependencies": {
     "react": ">=0.14.0 || >=15.0.0"
   },
   "devDependencies": {
     "babel": "^6.5.2",
-    "babel-polyfill": "^6.9.1",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.5.0",
     "babel-register": "^6.9.0",
     "babelify": "^7.3.0",
     "browserify": "^13.0.1",
     "chai": "^3.5.0",
+    "eslint": "^2.13.1",
     "jsdom": "^9.2.1",
     "mocha": "^2.5.3",
     "react-addons-test-utils": "^15.1.0",
     "react-dom": "^15.1.0",
+    "rimraf": "^2.5.2",
     "sinon": "^1.17.4",
     "sinon-chai": "^2.8.0"
   }

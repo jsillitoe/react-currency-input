@@ -5,7 +5,6 @@
 
 import React, {PropTypes} from 'react'
 import mask from './mask.js'
-import "babel-polyfill";
 
 
 const CurrencyInput = React.createClass({
