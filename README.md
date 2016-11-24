@@ -100,5 +100,6 @@ All other attributes are applied to the input element.  For example, you can int
 | precision         | 2             | Number of digits after the decimal separator |
 | decimalSeparator  | '.'           | The decimal separator |
 | thousandSeparator | ','           | The thousand separator |
+| inputType         | "text"        | Input field tag type. You may want to use `number` or `tel` |
 
 

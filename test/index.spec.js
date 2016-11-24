@@ -39,12 +39,11 @@ describe('react-currency-input', function(){
 
     });
 
-
     describe('custom arguments', function(){
 
         before('render and locate element', function() {
             this.renderedComponent = ReactTestUtils.renderIntoDocument(
-                <CurrencyInput decimalSeparator="," thousandSeparator="." precision="3" value="123456789"/>
+                <CurrencyInput decimalSeparator="," thousandSeparator="." precision="3" value="123456789" inputType="tel" />
             );
 
             this.inputComponent = ReactTestUtils.findRenderedDOMComponentWithTag(
@@ -57,6 +56,9 @@ describe('react-currency-input', function(){
             expect(this.renderedComponent.getMaskedValue()).to.equal('123.456,789')
         });
 
+        it('<input> should be of type "tel"', function() {
+            expect(this.inputComponent.getAttribute('type')).to.equal('tel')
+        });
     });
 
 

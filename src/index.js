@@ -18,7 +18,8 @@ const CurrencyInput = React.createClass({
         value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
         decimalSeparator: PropTypes.string,
         thousandSeparator: PropTypes.string,
-        precision: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+        precision: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+        inputType: PropTypes.string
     },
 
 
@@ -36,7 +37,8 @@ const CurrencyInput = React.createClass({
             value: "0",
             decimalSeparator: ".",
             thousandSeparator: ",",
-            precision: "2"
+            precision: "2",
+            inputType: "text"
         }
     },
 
@@ -55,6 +57,7 @@ const CurrencyInput = React.createClass({
         delete customProps.decimalSeparator;
         delete customProps.thousandSeparator;
         delete customProps.precision;
+        delete customProps.inputType;
         return {
             maskedValue: mask(this.props.value, this.props.precision, this.props.decimalSeparator, this.props.thousandSeparator),
             customProps: customProps
@@ -76,6 +79,7 @@ const CurrencyInput = React.createClass({
         delete customProps.decimalSeparator;
         delete customProps.thousandSeparator;
         delete customProps.precision;
+        delete customProps.inputType;
         this.setState({
             maskedValue: mask(nextProps.value, nextProps.precision, nextProps.decimalSeparator, nextProps.thousandSeparator),
             customProps: customProps
@@ -112,7 +116,7 @@ const CurrencyInput = React.createClass({
     render() {
         return (
             <input
-                type="text"
+                type={this.props.inputType}
                 value={this.state.maskedValue}
                 onChange={this.handleChange}
                 {...this.state.customProps}
