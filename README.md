@@ -101,5 +101,6 @@ All other attributes are applied to the input element.  For example, you can int
 | decimalSeparator  | '.'           | The decimal separator |
 | thousandSeparator | ','           | The thousand separator |
 | inputType         | "text"        | Input field tag type. You may want to use `number` or `tel` |
+| allowNegative     | false         | Allows negative numbers in the input |
 
 

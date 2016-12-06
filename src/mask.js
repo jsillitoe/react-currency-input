@@ -1,14 +1,39 @@
 
-export default function mask(value, precision, decimalSeparator, thousandSeparator){
+export default function mask(value, precision, decimalSeparator, thousandSeparator, allowNegative){
     // provide some default values and arg validation.
     if (decimalSeparator === undefined){decimalSeparator = ".";} // default to '.' as decimal separator
     if (thousandSeparator === undefined){thousandSeparator = ",";} // default to ',' as thousand separator
+    if (allowNegative === undefined){allowNegative = false;} // default to not allowing negative numbers
     if (precision === undefined){precision = 2;} // by default, 2 decimal places
     if (precision < 0) {precision = 0;} // precision cannot be negative.
     if (precision > 20) {precision = 20;} // precision cannot greater than 20
 
+    let numberIsNegative = false;
+    if(allowNegative) {
+        let negativeSignCount = (value.match(/-/g) || []).length;
+        // number will be negative if we have an odd number of "-"
+        // ideally, we should only ever have 0, 1 or 2 (positive number, making a number negative
+        // and making a negative number positive, respectively)
+        numberIsNegative = negativeSignCount % 2 === 1;
+    }
+
     // extract digits. if no digits, fill in a zero.
     let digits = value.match(/\d/g) || ['0'];
+
+    if(allowNegative) {
+        // if every digit in the array is '0', then the number should
+        // never be negative
+        let allDigitsAreZero = true;
+        for(let idx=0; idx < digits.length; idx += 1) {
+            if(digits[idx] !== '0') {
+                allDigitsAreZero = false;
+                break;
+            }
+        }
+        if(allDigitsAreZero) {
+            numberIsNegative = false;
+        }
+    }
 
     // zero-pad a input
     while (digits.length <= precision) {digits.unshift('0')}
@@ -34,6 +59,12 @@ export default function mask(value, precision, decimalSeparator, thousandSeparat
     // add in any thousand separators
     for (let x=decimalpos - 3; x > 0; x = x - 3){
         digits.splice(x, 0, thousandSeparator);
+    }
+
+    // if the number is negative, insert a "-" to
+    // the front of the array
+    if(allowNegative && numberIsNegative) {
+        digits.unshift('-');
     }
 
     return digits.join('');

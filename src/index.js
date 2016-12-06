@@ -19,7 +19,8 @@ const CurrencyInput = React.createClass({
         decimalSeparator: PropTypes.string,
         thousandSeparator: PropTypes.string,
         precision: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-        inputType: PropTypes.string
+        inputType: PropTypes.string,
+        allowNegative: PropTypes.bool
     },
 
 
@@ -29,7 +30,7 @@ const CurrencyInput = React.createClass({
      * Invoked once and cached when the class is created. Values in the mapping will be set on this.props if that
      * prop is not specified by the parent component
      *
-     * @returns {{onChange: onChange, value: string, decimalSeparator: string, thousandSeparator: string, precision: number}}
+     * @returns {{onChange: onChange, value: string, decimalSeparator: string, thousandSeparator: string, precision: number, inputType: string, allowNegative: false}}
      */
     getDefaultProps(){
         return {
@@ -38,7 +39,8 @@ const CurrencyInput = React.createClass({
             decimalSeparator: ".",
             thousandSeparator: ",",
             precision: "2",
-            inputType: "text"
+            inputType: "text",
+            allowNegative: false
         }
     },
 
@@ -58,8 +60,9 @@ const CurrencyInput = React.createClass({
         delete customProps.thousandSeparator;
         delete customProps.precision;
         delete customProps.inputType;
+        delete customProps.allowNegative;
         return {
-            maskedValue: mask(this.props.value, this.props.precision, this.props.decimalSeparator, this.props.thousandSeparator),
+            maskedValue: mask(this.props.value, this.props.precision, this.props.decimalSeparator, this.props.thousandSeparator, this.props.allowNegative),
             customProps: customProps
         }
     },
@@ -80,8 +83,9 @@ const CurrencyInput = React.createClass({
         delete customProps.thousandSeparator;
         delete customProps.precision;
         delete customProps.inputType;
+        delete customProps.allowNegative;
         this.setState({
-            maskedValue: mask(nextProps.value, nextProps.precision, nextProps.decimalSeparator, nextProps.thousandSeparator),
+            maskedValue: mask(nextProps.value, nextProps.precision, nextProps.decimalSeparator, nextProps.thousandSeparator, nextProps.allowNegative),
             customProps: customProps
         });
     },
@@ -103,7 +107,7 @@ const CurrencyInput = React.createClass({
      */
     handleChange(event){
         event.preventDefault();
-        let maskedValue = mask(event.target.value, this.props.precision, this.props.decimalSeparator, this.props.thousandSeparator);
+        let maskedValue = mask(event.target.value, this.props.precision, this.props.decimalSeparator, this.props.thousandSeparator, this.props.allowNegative);
         this.setState({maskedValue: maskedValue});
         this.props.onChange(maskedValue);
     },
