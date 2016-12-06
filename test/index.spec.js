@@ -101,4 +101,73 @@ describe('react-currency-input', function(){
     });
 
 
+    describe('negative numbers', function() {
+
+        before('render and locate element', function() {
+            this.renderedComponent = ReactTestUtils.renderIntoDocument(
+                <CurrencyInput onChange={this.handleChange} value="0" allowNegative={true}/>
+            );
+
+            this.inputComponent = ReactTestUtils.findRenderedDOMComponentWithTag(
+                this.renderedComponent,
+                'input'
+            );
+        });
+
+        beforeEach('reset value to 0', function() {
+            this.inputComponent.value = "0";
+            ReactTestUtils.Simulate.change(this.inputComponent);
+        });
+
+        it('should render 0 without negative sign', function() {
+            expect(this.renderedComponent.getMaskedValue()).to.equal('0.00');
+            this.inputComponent.value = "-0"; ReactTestUtils.Simulate.change(this.inputComponent);
+            expect(this.renderedComponent.getMaskedValue()).to.equal('0.00');
+        });
+
+        it('should render number with no or even number of "-" as positive', function() {
+            expect(this.renderedComponent.getMaskedValue()).to.equal('0.00');
+            this.inputComponent.value = "123456"; ReactTestUtils.Simulate.change(this.inputComponent);
+            expect(this.renderedComponent.getMaskedValue()).to.equal('1,234.56');
+            this.inputComponent.value = "--123456"; ReactTestUtils.Simulate.change(this.inputComponent);
+            expect(this.renderedComponent.getMaskedValue()).to.equal('1,234.56');
+            this.inputComponent.value = "123--456"; ReactTestUtils.Simulate.change(this.inputComponent);
+            expect(this.renderedComponent.getMaskedValue()).to.equal('1,234.56');
+            this.inputComponent.value = "123456--"; ReactTestUtils.Simulate.change(this.inputComponent);
+            expect(this.renderedComponent.getMaskedValue()).to.equal('1,234.56');
+            this.inputComponent.value = "--123--456--"; ReactTestUtils.Simulate.change(this.inputComponent);
+            expect(this.renderedComponent.getMaskedValue()).to.equal('1,234.56');
+            this.inputComponent.value = "123456----"; ReactTestUtils.Simulate.change(this.inputComponent);
+            expect(this.renderedComponent.getMaskedValue()).to.equal('1,234.56');
+        });
+
+        it('should render number with odd number of "-" as negative', function() {
+            expect(this.renderedComponent.getMaskedValue()).to.equal('0.00');
+            this.inputComponent.value = "-123456"; ReactTestUtils.Simulate.change(this.inputComponent);
+            expect(this.renderedComponent.getMaskedValue()).to.equal('-1,234.56');
+            this.inputComponent.value = "123-456"; ReactTestUtils.Simulate.change(this.inputComponent);
+            expect(this.renderedComponent.getMaskedValue()).to.equal('-1,234.56');
+            this.inputComponent.value = "123456-"; ReactTestUtils.Simulate.change(this.inputComponent);
+            expect(this.renderedComponent.getMaskedValue()).to.equal('-1,234.56');
+            this.inputComponent.value = "-123-456-"; ReactTestUtils.Simulate.change(this.inputComponent);
+            expect(this.renderedComponent.getMaskedValue()).to.equal('-1,234.56');
+        });
+
+        it('should correctly change between negative and positive numbers', function() {
+            expect(this.renderedComponent.getMaskedValue()).to.equal('0.00');
+            this.inputComponent.value = "123456"; ReactTestUtils.Simulate.change(this.inputComponent);
+            expect(this.renderedComponent.getMaskedValue()).to.equal('1,234.56');
+            this.inputComponent.value = "1,234.56-"; ReactTestUtils.Simulate.change(this.inputComponent);
+            expect(this.renderedComponent.getMaskedValue()).to.equal('-1,234.56');
+            this.inputComponent.value = "-1,234.56-"; ReactTestUtils.Simulate.change(this.inputComponent);
+            expect(this.renderedComponent.getMaskedValue()).to.equal('1,234.56');
+            this.inputComponent.value = "1-,234.56"; ReactTestUtils.Simulate.change(this.inputComponent);
+            expect(this.renderedComponent.getMaskedValue()).to.equal('-1,234.56');
+            this.inputComponent.value = "-1,234.-56"; ReactTestUtils.Simulate.change(this.inputComponent);
+            expect(this.renderedComponent.getMaskedValue()).to.equal('1,234.56');
+        });
+
+    });
+
+
 });

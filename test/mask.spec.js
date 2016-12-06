@@ -68,5 +68,55 @@ describe('mask', function(){
     });
 
 
+    describe('negative numbers', function(){
+
+        it('all "-" should be stripped out if allowNegative is false', function(){
+            expect(mask("123456")).to.equal("1,234.56");
+            expect(mask("-123456")).to.equal("1,234.56");
+            expect(mask("--123456")).to.equal("1,234.56");
+            expect(mask("--123--456")).to.equal("1,234.56");
+            expect(mask("--123--456--")).to.equal("1,234.56");
+        });
+
+        it('single "-" anywhere in the string should result in a negative number', function(){
+            expect(mask("-123456", "2", ".", ",", true)).to.equal("-1,234.56");
+            expect(mask("123-456", "2", ".", ",", true)).to.equal("-1,234.56");
+            expect(mask("123456-", "2", ".", ",", true)).to.equal("-1,234.56");
+        });
+
+        it('no or even number of "-" should result in a positive number', function(){
+            expect(mask("123456", "2", ".", ",", true)).to.equal("1,234.56");
+            expect(mask("--123456", "2", ".", ",", true)).to.equal("1,234.56");
+            expect(mask("123--456", "2", ".", ",", true)).to.equal("1,234.56");
+            expect(mask("123456--", "2", ".", ",", true)).to.equal("1,234.56");
+            expect(mask("--123456--", "2", ".", ",", true)).to.equal("1,234.56");
+            expect(mask("--123--456--", "2", ".", ",", true)).to.equal("1,234.56");
+            expect(mask("--1--234--56--", "2", ".", ",", true)).to.equal("1,234.56");
+        });
+
+        it('odd number of "-" should result in a negative number', function(){
+            expect(mask("-123456", "2", ".", ",", true)).to.equal("-1,234.56");
+            expect(mask("123-456", "2", ".", ",", true)).to.equal("-1,234.56");
+            expect(mask("123456-", "2", ".", ",", true)).to.equal("-1,234.56");
+            expect(mask("-123-456-", "2", ".", ",", true)).to.equal("-1,234.56");
+            expect(mask("-1-23-45-6-", "2", ".", ",", true)).to.equal("-1,234.56");
+            expect(mask("-1-2-3-4-5-6-", "2", ".", ",", true)).to.equal("-1,234.56");
+        });
+
+        it('0 is never negative', function(){
+            expect(mask("", "2", ".", ",", true)).to.equal("0.00");
+            expect(mask("0", "2", ".", ",", true)).to.equal("0.00");
+            expect(mask("-0", "2", ".", ",", true)).to.equal("0.00");
+            expect(mask("-0-", "2", ".", ",", true)).to.equal("0.00");
+            expect(mask("--0-", "2", ".", ",", true)).to.equal("0.00");
+        });
+
+        it('just "-" should result in 0.00', function(){
+            expect(mask("-", "2", ".", ",", true)).to.equal("0.00");
+        });
+
+    });
+
+
 
 });
