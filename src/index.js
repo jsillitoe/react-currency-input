@@ -30,7 +30,7 @@ const CurrencyInput = React.createClass({
      * Invoked once and cached when the class is created. Values in the mapping will be set on this.props if that
      * prop is not specified by the parent component
      *
-     * @returns {{onChange: onChange, value: string, decimalSeparator: string, thousandSeparator: string, precision: number, inputType: string, allowNegative: false}}
+     * @returns {{onChange: onChange, value: string, decimalSeparator: string, thousandSeparator: string, precision: number, inputType: string, allowNegative: boolean}}
      */
     getDefaultProps(){
         return {

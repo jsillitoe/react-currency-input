@@ -9,7 +9,7 @@ export default function mask(value, precision, decimalSeparator, thousandSeparat
     if (precision > 20) {precision = 20;} // precision cannot greater than 20
 
     let numberIsNegative = false;
-    if(allowNegative) {
+    if (allowNegative) {
         let negativeSignCount = (value.match(/-/g) || []).length;
         // number will be negative if we have an odd number of "-"
         // ideally, we should only ever have 0, 1 or 2 (positive number, making a number negative
@@ -20,7 +20,7 @@ export default function mask(value, precision, decimalSeparator, thousandSeparat
     // extract digits. if no digits, fill in a zero.
     let digits = value.match(/\d/g) || ['0'];
 
-    if(allowNegative) {
+    if (allowNegative) {
         // if every digit in the array is '0', then the number should
         // never be negative
         let allDigitsAreZero = true;
@@ -63,7 +63,7 @@ export default function mask(value, precision, decimalSeparator, thousandSeparat
 
     // if the number is negative, insert a "-" to
     // the front of the array
-    if(allowNegative && numberIsNegative) {
+    if (allowNegative && numberIsNegative) {
         digits.unshift('-');
     }
 
