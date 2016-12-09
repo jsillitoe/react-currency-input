@@ -5,7 +5,7 @@ import mask from '../src/mask'
 describe('mask', function(){
 
 
-    it('should change "0" to "$0.00"', function(){
+    it('should change "0" to "0.00"', function(){
         expect(mask("0")).to.equal("0.00");
     });
 
@@ -113,6 +113,34 @@ describe('mask', function(){
 
         it('just "-" should result in 0.00', function(){
             expect(mask("-", "2", ".", ",", true)).to.equal("0.00");
+        });
+
+    });
+
+
+
+    describe('with currency symbol', function(){
+
+        it('"$" prefix should change "0" to "$0.00"', function(){
+            expect(mask("0","2",".",",",true,"$","")).to.equal("$0.00");
+        });
+
+        it('"kr" suffix should change "0" to "0.00kr"', function(){
+            expect(mask("0","2",".",",",true,"","kr")).to.equal("0.00kr");
+        });
+
+        it('can have both a prefix and a suffix', function(){
+            expect(mask("0","2",".",",",true,"$","kr")).to.equal("$0.00kr");
+        });
+
+        it('does not strip whitespaces between amount and symbol', function(){
+            expect(mask("0","2",".",",",true,"$ ","")).to.equal("$ 0.00");
+            expect(mask("0","2",".",",",true,""," kr")).to.equal("0.00 kr");
+        });
+
+        it('strips whitespaces before and after value', function(){
+            expect(mask("0","2",".",",",true,"  $ ","")).to.equal("$ 0.00");
+            expect(mask("0","2",".",",",true,""," kr   ")).to.equal("0.00 kr");
         });
 
     });

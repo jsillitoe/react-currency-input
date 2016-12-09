@@ -170,4 +170,42 @@ describe('react-currency-input', function(){
     });
 
 
+    describe('currency prefix', function() {
+
+        before('render and locate element', function () {
+            this.renderedComponent = ReactTestUtils.renderIntoDocument(
+                <CurrencyInput onChange={this.handleChange} value="0" prefix="$"/>
+            );
+
+            this.inputComponent = ReactTestUtils.findRenderedDOMComponentWithTag(
+                this.renderedComponent,
+                'input'
+            );
+        });
+
+        it('should render the prefix', function() {
+            expect(this.renderedComponent.getMaskedValue()).to.equal('$0.00');
+        });
+
+    });
+
+    describe('currency suffix', function() {
+
+        before('render and locate element', function () {
+            this.renderedComponent = ReactTestUtils.renderIntoDocument(
+                <CurrencyInput onChange={this.handleChange} value="0" suffix=" kr"/>
+            );
+
+            this.inputComponent = ReactTestUtils.findRenderedDOMComponentWithTag(
+                this.renderedComponent,
+                'input'
+            );
+        });
+
+        it('should render the suffix', function() {
+            expect(this.renderedComponent.getMaskedValue()).to.equal('0.00 kr');
+        });
+
+    });
+
 });

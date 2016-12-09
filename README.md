@@ -82,6 +82,21 @@ Specify a specific precision:
 ```
 
 
+## Currency
+
+Optionally set a currency symbol as a prefix or suffix
+```javascript
+    // $1,234,567.89
+    <CurrencyInput prefix="$" />
+```
+
+```javascript
+    // 1,234,567.89 kr
+    <CurrencyInput suffix=" kr" />
+```
+
+
+
 All other attributes are applied to the input element.  For example, you can integrate bootstrap styling:
 
 ```javascript
@@ -102,5 +117,7 @@ All other attributes are applied to the input element.  For example, you can int
 | thousandSeparator | ','           | The thousand separator |
 | inputType         | "text"        | Input field tag type. You may want to use `number` or `tel` |
 | allowNegative     | false         | Allows negative numbers in the input |
+| prefix            | ''            | Currency prefix |
+| suffix            | ''            | Currency suffix |
 
 
