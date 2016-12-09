@@ -143,6 +143,11 @@ describe('mask', function(){
             expect(mask("0","2",".",",",true,""," kr   ")).to.equal("0.00 kr");
         });
 
+
+        it('"-" should come before the prefix', function(){
+            expect(mask("-20.00","2",".",",",true,"$","")).to.equal("-$20.00");
+        });
+
     });
 
 

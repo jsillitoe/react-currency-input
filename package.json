@@ -1,6 +1,6 @@
 {
   "name": "react-currency-input",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "React component for inputing currency amounts",
   "main": "lib/index.js",
   "scripts": {

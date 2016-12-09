@@ -96,6 +96,14 @@ Optionally set a currency symbol as a prefix or suffix
 ```
 
 
+Negative signs come before the prefix
+```javascript
+    // -$20.00
+    <CurrencyInput prefix="$" value="-20.00" />
+```
+
+
+
 
 All other attributes are applied to the input element.  For example, you can integrate bootstrap styling:
 
