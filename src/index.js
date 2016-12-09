@@ -98,6 +98,8 @@ const CurrencyInput = React.createClass({
         delete customProps.precision;
         delete customProps.inputType;
         delete customProps.allowNegative;
+        delete customProps.prefix;
+        delete customProps.suffix;
         this.setState({
             maskedValue: mask(
                 nextProps.value,
