@@ -80,7 +80,7 @@ describe('react-currency-input', function(){
         it('should call onChange', function() {
             this.inputComponent.value=123456789;
             ReactTestUtils.Simulate.change(this.inputComponent);
-            expect(this.handleChange).to.have.been.calledWith("1,234,567.89");
+            expect(this.handleChange).to.have.been.calledWith("1,234,567.89", 1234567.89);
         });
 
 

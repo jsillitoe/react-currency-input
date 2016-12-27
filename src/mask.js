@@ -47,7 +47,7 @@ export default function mask(value, precision, decimalSeparator, thousandSeparat
 
     // clean up extraneous digits like leading zeros.
     digits = Number(digits.join('')).toFixed(precision).split('');
-
+    const raw = Number(digits.join(''));
 
     let decimalpos = digits.length - precision - 1;  // -1 needed to position the decimal separator before the digits.
     if (precision > 0) {
@@ -73,5 +73,8 @@ export default function mask(value, precision, decimalSeparator, thousandSeparat
         digits.unshift('-');
     }
 
-    return digits.join('').trim();
+    return {
+        value: raw,
+        maskedValue: digits.join('').trim()
+    };
 }
