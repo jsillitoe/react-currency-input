@@ -3,8 +3,16 @@ export default function mask(value, precision = 2, decimalSeparator = '.', thous
     // provide some default values and arg validation.
     if (precision < 0) { precision = 0; } // precision cannot be negative
     if (precision > 20) { precision = 20; } // precision cannot be greater than 20
+    
+    if (value === null) {
+          return {
+              value: '',
+              maskedValue: ''
+          };
+     }
+  
     value = String(value); //if the given value is a Number, let's convert into String to manipulate that
-
+  
     // extract digits. if no digits, fill in a zero.
     let digits = value.match(/\d/g) || ['0'];
     
