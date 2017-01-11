@@ -1,17 +1,12 @@
-/**
- *
- *
- */
-
-import React, {PropTypes} from 'react'
+import React, { PropTypes } from 'react'
 import mask from './mask.js'
 
 
 const CurrencyInput = React.createClass({
 
-
     /**
-     * Prop validation.  See:  https://facebook.github.io/react/docs/component-specs.html#proptypes
+     * Prop validation.
+     * @see https://facebook.github.io/react/docs/component-specs.html#proptypes
      */
     propTypes: {
         onChange: PropTypes.func,
@@ -21,43 +16,40 @@ const CurrencyInput = React.createClass({
         precision: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
         inputType: PropTypes.string,
         allowNegative: PropTypes.bool,
+        allowEmpty: PropTypes.bool,
         prefix: PropTypes.string,
         suffix: PropTypes.string
     },
 
 
     /**
-     * Component lifecycle function.  See:  https://facebook.github.io/react/docs/component-specs.html#getdefaultprops
+     * Component lifecycle function.
      *
      * Invoked once and cached when the class is created. Values in the mapping will be set on this.props if that
      * prop is not specified by the parent component
      *
-     * @returns {{onChange: onChange, value: string, decimalSeparator: string, thousandSeparator: string, precision: number, inputType: string, allowNegative: boolean}}
+     * @see https://facebook.github.io/react/docs/component-specs.html#getdefaultprops
      */
-    getDefaultProps(){
+    getDefaultProps() {
         return {
-            onChange: function(maskValue, value){/*no-op*/},
-            value: "0",
-            decimalSeparator: ".",
-            thousandSeparator: ",",
-            precision: "2",
-            inputType: "text",
+            onChange: function(maskValue, value, event) {/*no-op*/},
+            value: '0',
+            decimalSeparator: '.',
+            thousandSeparator: ',',
+            precision: '2',
+            inputType: 'text',
             allowNegative: false,
             prefix: '',
             suffix: ''
         }
     },
 
-
     /**
-     * Component lifecycle function.  See:  https://facebook.github.io/react/docs/component-specs.html#getinitialstate
-     *
-     * Invoked once before the component is mounted. The return value will be used as the initial value of this.state
-     *
-     * @returns {{maskedValue, customProps: *}}
+     * General function used to cleanup and define the final props used for rendering
+     * @returns {{ maskedValue: {String}, value: {Number}, customProps: {Object} }}
      */
-    getInitialState(){
-        let customProps = Object.assign({}, this.props);  //polyfilled for environments that do not support it.
+    prepareProps(props) {
+        let customProps = Object.assign({}, props); //polyfilled for environments that do not support it.
         delete customProps.onChange;
         delete customProps.value;
         delete customProps.decimalSeparator;
@@ -65,70 +57,58 @@ const CurrencyInput = React.createClass({
         delete customProps.precision;
         delete customProps.inputType;
         delete customProps.allowNegative;
+        delete customProps.allowEmpty;
         delete customProps.prefix;
         delete customProps.suffix;
 
+        let initialValue = props.value;
+        if (!initialValue) {
+            initialValue = props.allowEmpty? null : '';
+        }
+
         const { maskedValue, value } = mask(
-            this.props.value,
-            this.props.precision,
-            this.props.decimalSeparator,
-            this.props.thousandSeparator,
-            this.props.allowNegative,
-            this.props.prefix,
-            this.props.suffix
+            initialValue,
+            props.precision,
+            props.decimalSeparator,
+            props.thousandSeparator,
+            props.allowNegative,
+            props.prefix,
+            props.suffix
         );
 
-        return {
-            maskedValue,
-            value,
-            customProps: customProps
-        }
+        return { maskedValue, value, customProps };
+    },
+
+    /**
+     * Component lifecycle function.
+     * Invoked once before the component is mounted. The return value will be used as the initial value of this.state
+     *
+     * @returns {{ maskedValue: {String}, value: {Number}, customProps: {Object} }}
+     * @see https://facebook.github.io/react/docs/component-specs.html#getinitialstate
+     */
+    getInitialState() {
+        return this.prepareProps(this.props);
     },
 
 
     /**
-     * Component lifecycle function.  See:  https://facebook.github.io/react/docs/component-specs.html#updating-componentwillreceiveprops
-     *
+     * Component lifecycle function.
      * Invoked when a component is receiving new props. This method is not called for the initial render.
      *
      * @param nextProps
+     * @see https://facebook.github.io/react/docs/component-specs.html#updating-componentwillreceiveprops
      */
-    componentWillReceiveProps(nextProps){
-        let customProps = Object.assign({}, nextProps);  //polyfilled for environments that do not support it.
-        delete customProps.onChange;
-        delete customProps.value;
-        delete customProps.decimalSeparator;
-        delete customProps.thousandSeparator;
-        delete customProps.precision;
-        delete customProps.inputType;
-        delete customProps.allowNegative;
-        delete customProps.prefix;
-        delete customProps.suffix;
-
-        const {maskedValue, value} = mask(
-            nextProps.value,
-            nextProps.precision,
-            nextProps.decimalSeparator,
-            nextProps.thousandSeparator,
-            nextProps.allowNegative,
-            nextProps.prefix,
-            nextProps.suffix
-        );
-
-        this.setState({
-            maskedValue,
-            value,
-            customProps: customProps
-        });
+    componentWillReceiveProps(nextProps) {
+        this.setState(this.prepareProps(nextProps));
     },
 
 
     /**
      * Exposes the current masked value.
      *
-     * @returns {*}
+     * @returns {String}
      */
-    getMaskedValue(){
+    getMaskedValue() {
         return this.state.maskedValue;
     },
 
@@ -137,9 +117,9 @@ const CurrencyInput = React.createClass({
      * onChange Event Handler
      * @param event
      */
-    handleChange(event){
+    handleChange(event) {
         event.preventDefault();
-        let {maskedValue, value} = mask(
+        let { maskedValue, value } = mask(
             event.target.value,
             this.props.precision,
             this.props.decimalSeparator,
@@ -148,14 +128,15 @@ const CurrencyInput = React.createClass({
             this.props.prefix,
             this.props.suffix
         );
-        this.setState({maskedValue, value});
-        this.props.onChange(maskedValue, value);
+        this.setState({ maskedValue, value });
+        this.props.onChange(maskedValue, value, event);
     },
 
 
     /**
-     * Component lifecycle function.  See:  https://facebook.github.io/react/docs/component-specs.html#render
+     * Component lifecycle function.
      * @returns {XML}
+     * @see https://facebook.github.io/react/docs/component-specs.html#render
      */
     render() {
         return (

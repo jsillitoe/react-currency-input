@@ -1,5 +1,5 @@
 
-export default function mask(value, precision, decimalSeparator, thousandSeparator, allowNegative, prefix, suffix){
+export default function mask(value, precision, decimalSeparator, thousandSeparator, allowNegative, prefix, suffix) {
     // provide some default values and arg validation.
     if (decimalSeparator === undefined){decimalSeparator = ".";} // default to '.' as decimal separator
     if (thousandSeparator === undefined){thousandSeparator = ",";} // default to ',' as thousand separator
@@ -9,6 +9,13 @@ export default function mask(value, precision, decimalSeparator, thousandSeparat
     if (precision > 20) {precision = 20;} // precision cannot greater than 20
     if (prefix === undefined){prefix = '';} // default prefix to empty string
     if (suffix === undefined){suffix = '';} // default suffix to empty string
+    
+    if (value === null) {
+        return {
+            value: '',
+            maskedValue: ''
+        };
+    }
 
     let numberIsNegative = false;
     if (allowNegative) {
