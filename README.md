@@ -129,3 +129,6 @@ All other attributes are applied to the input element.  For example, you can int
 | suffix            | ''            | Currency suffix |
 
 
+**Note:** Enabling any mask-related features such as prefix, suffix or separators 
+with an inputType="number" or "tel" could trigger errors. Most of those characters
+ would be invalid in such input types.
