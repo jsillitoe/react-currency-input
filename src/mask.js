@@ -4,15 +4,23 @@ export default function mask(value, precision = 2, decimalSeparator = '.', thous
     if (precision < 0) { precision = 0; } // precision cannot be negative
     if (precision > 20) { precision = 20; } // precision cannot be greater than 20
     
-    if (value === null) {
+    if (value === null || value===undefined) {
           return {
-              value: '',
+              value: 0,
               maskedValue: ''
           };
      }
   
     value = String(value); //if the given value is a Number, let's convert into String to manipulate that
-  
+
+    if (value.length == 0) {
+        return {
+            value: 0,
+            maskedValue: ''
+        };
+    }
+
+
     // extract digits. if no digits, fill in a zero.
     let digits = value.match(/\d/g) || ['0'];
     

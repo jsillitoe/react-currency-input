@@ -4,6 +4,26 @@ import mask from '../src/mask'
 
 describe('mask', function(){
 
+    it('should return empty strings when value is not set"', function(){
+        const {maskedValue, value} = mask();
+
+        expect(maskedValue).to.equal("");
+        expect(value).to.equal(0);
+    });
+
+    it('should return empty strings when value is empty string"', function(){
+        const {maskedValue, value} = mask("");
+
+        expect(maskedValue).to.equal("");
+        expect(value).to.equal(0);
+    });
+
+    it('should return empty strings when value is null"', function(){
+        const {maskedValue, value} = mask(null);
+
+        expect(maskedValue).to.equal("");
+        expect(value).to.equal(0);
+    });
 
     it('should change "0" to "0.00"', function(){
         const {maskedValue, value} = mask("0");
@@ -20,31 +40,31 @@ describe('mask', function(){
     });
 
     it('should change "000" to "0.00"', function(){
-        const {maskedValue, value} = mask("000")
+        const {maskedValue, value} = mask("000");
         expect(maskedValue).to.equal("0.00");
         expect(value).to.equal(0);
     });
 
     it('should change "0000" to "0.00"', function(){
-        const {maskedValue, value} = mask("0000")
+        const {maskedValue, value} = mask("0000");
         expect(maskedValue).to.equal("0.00");
         expect(value).to.equal(0);
     });
 
     it('should change "0001" to "0.01"', function(){
-        const {maskedValue, value} = mask("0001")
+        const {maskedValue, value} = mask("0001");
         expect(maskedValue).to.equal("0.01");
         expect(value).to.equal(0.01);
     });
 
     it('should change "1001" to "10.01"', function(){
-        const {maskedValue, value} = mask("1001")
+        const {maskedValue, value} = mask("1001");
         expect(maskedValue).to.equal("10.01");
         expect(value).to.equal(10.01);
     });
 
     it('should change "123456789" to "1,234,567.89"', function(){
-        const {maskedValue, value} = mask("123456789")
+        const {maskedValue, value} = mask("123456789");
         expect(maskedValue).to.equal("1,234,567.89");
         expect(value).to.equal(1234567.89);
     });
@@ -77,7 +97,8 @@ describe('mask', function(){
 
         it('set to string value "3" should change "123456789" to "123,456.789"', function(){
             const {maskedValue, value} = mask("123456789", "3");
-            expect(mask("123456789", "3").maskedValue).to.equal("123,456.789");
+            expect(maskedValue).to.equal("123,456.789");
+            expect(value).to.equal(123456.789)
         });
 
         it('set to 3 should change "123456789" to "123,456.789"', function(){
@@ -131,7 +152,6 @@ describe('mask', function(){
         });
 
         it('0 is never negative', function(){
-            expect(mask("", "2", ".", ",", true).maskedValue).to.equal("0.00");
             expect(mask("0", "2", ".", ",", true).maskedValue).to.equal("0.00");
             expect(mask("-0", "2", ".", ",", true).maskedValue).to.equal("0.00");
             expect(mask("-0-", "2", ".", ",", true).maskedValue).to.equal("0.00");
