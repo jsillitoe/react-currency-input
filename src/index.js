@@ -49,7 +49,7 @@ const CurrencyInput = React.createClass({
      * @returns {{ maskedValue: {String}, value: {Number}, customProps: {Object} }}
      */
     prepareProps(props) {
-        let customProps = Object.assign({}, props); //polyfilled for environments that do not support it.
+        let customProps = JSON.parse(JSON.stringify(props)); //not as clean, but better support
         delete customProps.onChange;
         delete customProps.value;
         delete customProps.decimalSeparator;
