@@ -64,6 +64,17 @@ const CurrencyInput = React.createClass({
         let initialValue = props.value;
         if (!initialValue) {
             initialValue = props.allowEmpty? null : '';
+        }else{
+
+            if (typeof initialValue == 'string') {
+                initialValue = Number.parseFloat(initialValue);
+            }
+            initialValue = Number(initialValue).toLocaleString(undefined, {
+                style                : 'decimal',
+                minimumFractionDigits: props.precision,
+                maximumFractionDigits: props.precision
+            })
+
         }
 
         const { maskedValue, value } = mask(

@@ -53,7 +53,7 @@ describe('react-currency-input', function(){
         });
 
         it('<CurrencyInput> should have masked value of "123.456,789"', function() {
-            expect(this.renderedComponent.getMaskedValue()).to.equal('123.456,789')
+            expect(this.renderedComponent.getMaskedValue()).to.equal('123.456.789,000')
         });
 
         it('<input> should be of type "tel"', function() {
@@ -61,6 +61,91 @@ describe('react-currency-input', function(){
         });
     });
 
+
+    describe('properly convert number value props into display values', function(){
+
+        it('adds decimals to whole numbers to match precision', function() {
+            var renderedComponent = ReactTestUtils.renderIntoDocument(
+                <CurrencyInput precision="2" value={123456789} />
+            );
+            expect (renderedComponent.getMaskedValue()).to.equal('123,456,789.00')
+        });
+
+        it('Does not change value when precision matches', function() {
+            var renderedComponent = ReactTestUtils.renderIntoDocument(
+                <CurrencyInput precision="2" value={1234567.89} />
+            );
+            expect (renderedComponent.getMaskedValue()).to.equal('1,234,567.89')
+        });
+
+
+        it('Rounds down properly when an number with extra decimals is passed in', function() {
+            var renderedComponent = ReactTestUtils.renderIntoDocument(
+                <CurrencyInput precision="2" value={1234567.89123} />
+            );
+            expect (renderedComponent.getMaskedValue()).to.equal('1,234,567.89')
+        });
+
+
+        it('Rounds up properly when an number with extra decimals is passed in', function() {
+            var renderedComponent = ReactTestUtils.renderIntoDocument(
+                <CurrencyInput precision="2" value={1234567.89999} />
+            );
+            expect (renderedComponent.getMaskedValue()).to.equal('1,234,567.90')
+        });
+
+        it('Rounds up the whole number when an number with extra decimals is passed in', function() {
+            var renderedComponent = ReactTestUtils.renderIntoDocument(
+                <CurrencyInput precision="0" value={1234567.89999} />
+            );
+            expect (renderedComponent.getMaskedValue()).to.equal('1,234,568')
+        });
+
+    });
+
+
+    describe('properly convert string value props into display values', function(){
+
+        it('adds decimals to whole numbers to match precision', function() {
+            var renderedComponent = ReactTestUtils.renderIntoDocument(
+                <CurrencyInput precision="2" value="6300" />
+            );
+            expect (renderedComponent.getMaskedValue()).to.equal('6,300.00')
+        });
+
+
+        it('Does not change value when precision matches', function() {
+            var renderedComponent = ReactTestUtils.renderIntoDocument(
+                <CurrencyInput precision="2" value="1234567.89" />
+            );
+            expect (renderedComponent.getMaskedValue()).to.equal('1,234,567.89')
+        });
+
+
+        it('Rounds down properly when an number with extra decimals is passed in', function() {
+            var renderedComponent = ReactTestUtils.renderIntoDocument(
+                <CurrencyInput precision="2" value="1234567.89123" />
+            );
+            expect (renderedComponent.getMaskedValue()).to.equal('1,234,567.89')
+        });
+
+
+        it('Rounds up properly when an number with extra decimals is passed in', function() {
+            var renderedComponent = ReactTestUtils.renderIntoDocument(
+                <CurrencyInput precision="2" value="1234567.89999" />
+            );
+            expect (renderedComponent.getMaskedValue()).to.equal('1,234,567.90')
+        });
+
+
+        it('Rounds up the whole number when an number with extra decimals is passed in', function() {
+            var renderedComponent = ReactTestUtils.renderIntoDocument(
+                <CurrencyInput precision="0" value="1234567.89999" />
+            );
+            expect (renderedComponent.getMaskedValue()).to.equal('1,234,568')
+        });
+
+    });
 
     describe('change events', function(){
 
