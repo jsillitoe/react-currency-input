@@ -24,7 +24,7 @@ const MyApp = React.createClass({
   
     handleChange(newValue){
         this.setState({amount: newValue});
-    }
+    },
     render() {
         return (
             <div>
@@ -47,7 +47,7 @@ const MyApp = React.createClass({
     handleSubmit(event){
         event.preventDefault();
         console.log(this.refs.myinput.getMaskedValue())
-    }
+    },
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
