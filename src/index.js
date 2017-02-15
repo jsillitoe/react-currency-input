@@ -67,6 +67,24 @@ const CurrencyInput = React.createClass({
         }else{
 
             if (typeof initialValue == 'string') {
+                // Some people, when confronted with a problem, think "I know, I'll use regular expressions."
+                // Now they have two problems.
+
+                // Strip out thousand separators, prefix, and suffix, etc.
+                if (props.thousandSeparator === "."){
+                    // special handle the . thousand separator
+                    initialValue = initialValue.replace(/\./g, '');
+                }
+
+                if (props.decimalSeparator != "."){
+                    // fix the decimal separator
+                    initialValue = initialValue.replace(new RegExp(props.decimalSeparator, 'g'), '.');
+                }
+
+                //Strip out anything that is not a digit, -, or decimal separator
+                initialValue = initialValue.replace(/[^0-9-.]/g, '');
+
+                // now we can parse.
                 initialValue = Number.parseFloat(initialValue);
             }
             initialValue = Number(initialValue).toLocaleString(undefined, {

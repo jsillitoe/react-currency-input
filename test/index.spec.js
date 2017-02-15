@@ -145,6 +145,91 @@ describe('react-currency-input', function(){
             expect (renderedComponent.getMaskedValue()).to.equal('1,234,568')
         });
 
+
+        it('Handles strings with separators', function() {
+            var renderedComponent = ReactTestUtils.renderIntoDocument(
+                <CurrencyInput value="1,000.01" />
+            );
+            expect (renderedComponent.getMaskedValue()).to.equal('1,000.01')
+        });
+
+
+        it('Handles strings with prefixes', function() {
+            var renderedComponent = ReactTestUtils.renderIntoDocument(
+                <CurrencyInput value="$10.01" prefix="$" />
+            );
+            expect (renderedComponent.getMaskedValue()).to.equal('$10.01')
+        });
+
+        it('Handles strings with suffixes', function() {
+            var renderedComponent = ReactTestUtils.renderIntoDocument(
+                <CurrencyInput value="10.01 kr" suffix=" kr" />
+            );
+            expect (renderedComponent.getMaskedValue()).to.equal('10.01 kr')
+        });
+
+
+        it('Handles strings with custom separators', function() {
+            var renderedComponent = ReactTestUtils.renderIntoDocument(
+                <CurrencyInput value="123.456.789,12" decimalSeparator="," thousandSeparator="."/>
+            );
+            expect (renderedComponent.getMaskedValue()).to.equal('123.456.789,12')
+        });
+
+
+        it("Handles 1,234,567.89 format", function() {
+            var renderedComponent = ReactTestUtils.renderIntoDocument(
+                <CurrencyInput value="1,234,567.89" decimalSeparator="." thousandSeparator=","/>
+            );
+            expect (renderedComponent.getMaskedValue()).to.equal('1,234,567.89')
+        });
+
+
+        it("Handles 1 234 567.89 format", function() {
+            var renderedComponent = ReactTestUtils.renderIntoDocument(
+                <CurrencyInput value="1,234,567.89" decimalSeparator="." thousandSeparator=" "/>
+            );
+            expect (renderedComponent.getMaskedValue()).to.equal('1 234 567.89')
+        });
+
+        it("Handles 1 234 567,89 format", function() {
+            var renderedComponent = ReactTestUtils.renderIntoDocument(
+                <CurrencyInput value="1 234 567,89" decimalSeparator="," thousandSeparator=" "/>
+            );
+            expect (renderedComponent.getMaskedValue()).to.equal('1 234 567,89')
+        });
+
+        it("Handles 1,234,567·89 format", function() {
+            var renderedComponent = ReactTestUtils.renderIntoDocument(
+                <CurrencyInput value="1,234,567·89" decimalSeparator="·" thousandSeparator=","/>
+            );
+            expect (renderedComponent.getMaskedValue()).to.equal('1,234,567·89')
+        });
+
+        it("Handles 1.234.567,89 format", function() {
+            var renderedComponent = ReactTestUtils.renderIntoDocument(
+                <CurrencyInput value="1.234.567,89" decimalSeparator="," thousandSeparator="."/>
+            );
+            expect (renderedComponent.getMaskedValue()).to.equal('1.234.567,89')
+        });
+
+        it("Handles 1˙234˙567,89 format", function() {
+            var renderedComponent = ReactTestUtils.renderIntoDocument(
+                <CurrencyInput value="1˙234˙567,89" decimalSeparator="," thousandSeparator="˙"/>
+            );
+            expect (renderedComponent.getMaskedValue()).to.equal('1˙234˙567,89')
+        });
+
+
+        it("Handles 1'234'567.89 format", function() {
+            var renderedComponent = ReactTestUtils.renderIntoDocument(
+                <CurrencyInput value="1'234'567.89" decimalSeparator="." thousandSeparator="'"/>
+            );
+            expect (renderedComponent.getMaskedValue()).to.equal("1'234'567.89")
+        });
+
+
+
     });
 
     describe('change events', function(){
