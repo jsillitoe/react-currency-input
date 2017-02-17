@@ -49,7 +49,7 @@ const CurrencyInput = React.createClass({
      * @returns {{ maskedValue: {String}, value: {Number}, customProps: {Object} }}
      */
     prepareProps(props) {
-        let customProps = JSON.parse(JSON.stringify(props)); //not as clean, but better support
+        let customProps = {...props}; // babeljs converts to Object.assign, then polyfills.
         delete customProps.onChange;
         delete customProps.value;
         delete customProps.decimalSeparator;
