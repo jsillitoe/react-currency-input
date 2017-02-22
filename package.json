@@ -31,7 +31,7 @@
     "url": "https://github.com/jsillitoe/react-currency-input/issues"
   },
   "homepage": "https://github.com/jsillitoe/react-currency-input#readme",
-  "peerDependencies": {
+  "dependencies": {
     "react": ">=0.14.0 || >=15.0.0"
   },
   "devDependencies": {
@@ -51,6 +51,5 @@
     "rimraf": "^2.5.2",
     "sinon": "^1.17.4",
     "sinon-chai": "^2.8.0"
-  },
-  "dependencies": {}
+  }
 }
