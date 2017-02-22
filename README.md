@@ -123,12 +123,13 @@ All other attributes are applied to the input element.  For example, you can int
 | precision         | 2             | Number of digits after the decimal separator |
 | decimalSeparator  | '.'           | The decimal separator |
 | thousandSeparator | ','           | The thousand separator |
-| inputType         | "text"        | Input field tag type. You may want to use `number` or `tel` |
+| inputType         | "text"        | Input field tag type. You may want to use `number` or `tel`* |
 | allowNegative     | false         | Allows negative numbers in the input |
+| allowEmpty        | false         | If no `value` is given, defines if it starts as null (`true`) or '' (`false`) |
 | prefix            | ''            | Currency prefix |
 | suffix            | ''            | Currency suffix |
 
 
-**Note:** Enabling any mask-related features such as prefix, suffix or separators 
+__*Note:__ Enabling any mask-related features such as prefix, suffix or separators 
 with an inputType="number" or "tel" could trigger errors. Most of those characters
  would be invalid in such input types.
