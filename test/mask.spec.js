@@ -126,10 +126,16 @@ describe('mask', function(){
             expect(mask("--123--456--").maskedValue).to.equal("1,234.56");
         });
 
-        it('single "-" anywhere in the string should result in a negative number', function(){
+        it('single "-" anywhere in the string should result in a negative masked number', function(){
             expect(mask("-123456", "2", ".", ",", true).maskedValue).to.equal("-1,234.56");
             expect(mask("123-456", "2", ".", ",", true).maskedValue).to.equal("-1,234.56");
             expect(mask("123456-", "2", ".", ",", true).maskedValue).to.equal("-1,234.56");
+        });
+
+        it('single "-" anywhere in the string should result in a negative unmasked number', function(){
+            expect(mask("-123456", "2", ".", ",", true).value).to.equal(-1234.56);
+            expect(mask("123-456", "2", ".", ",", true).value).to.equal(-1234.56);
+            expect(mask("123456-", "2", ".", ",", true).value).to.equal(-1234.56);
         });
 
         it('no or even number of "-" should result in a positive number', function(){

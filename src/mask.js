@@ -55,7 +55,7 @@ export default function mask(value, precision = 2, decimalSeparator = '.', thous
 
     // clean up extraneous digits like leading zeros.
     digits = Number(digits.join('')).toFixed(precision).split('');
-    const raw = Number(digits.join(''));
+    let raw = Number(digits.join(''));
 
     let decimalpos = digits.length - precision - 1;  // -1 needed to position the decimal separator before the digits.
     if (precision > 0) {
@@ -76,9 +76,10 @@ export default function mask(value, precision = 2, decimalSeparator = '.', thous
     if (suffix.length > 0) { digits.push(suffix); }
 
     // if the number is negative, insert a "-" to
-    // the front of the array
+    // the front of the array and negate the raw value
     if (allowNegative && numberIsNegative) {
         digits.unshift('-');
+        raw = -raw;
     }
 
     return {
