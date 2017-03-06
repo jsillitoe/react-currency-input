@@ -168,6 +168,13 @@ const CurrencyInput = React.createClass({
     handleFocus(event) {
         //Whenever we receive focus check to see if the position is before the suffix, if not, move it.
 
+        // if there is no suffix, then no worries just return
+        if ( this.props.suffix.length == 0 ) {
+            console.log("No suffix.");
+            return;
+        }
+        let selection = this.getInputSelection(event.target);
+        console.log(selection);
 
 
     },
@@ -178,6 +185,21 @@ const CurrencyInput = React.createClass({
 
     },
 
+
+    getInputSelection(el) {
+        var start = 0, end = 0;
+        if (typeof el.selectionStart == "number" && typeof el.selectionEnd == "number") {
+            start = el.selectionStart;
+            end = el.selectionEnd;
+        } else {
+            //TODO Support for IE8 and below (maybe).
+
+        }
+        return {
+            start: start,
+            end: end
+        };
+    },
 
 
     /**
