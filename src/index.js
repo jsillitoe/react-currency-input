@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react'
+import ReactDOM from 'react-dom'
 import mask from './mask.js'
 
 
@@ -173,7 +174,7 @@ const CurrencyInput = React.createClass({
             console.log("No suffix.");
             return;
         }
-        let selection = this.getInputSelection(event.target);
+        let selection = this.getInputSelection(ReactDOM.findDOMNode(event.target));
         console.log(selection);
 
 
