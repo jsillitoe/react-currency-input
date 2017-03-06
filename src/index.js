@@ -175,6 +175,11 @@ const CurrencyInput = React.createClass({
             return;
         }
 
+        console.log("Select Start", event.target.selectionStart );
+        console.log("Select End", event.target.selectionEnd );
+
+
+
         let selectionEnd = Math.min(event.target.selectionEnd, event.target.value.length - this.props.suffix.length);
         let selectionStart = Math.min(event.target.selectionStart, selectionEnd);
 
