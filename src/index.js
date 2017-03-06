@@ -174,9 +174,13 @@ const CurrencyInput = React.createClass({
             console.log("No suffix.");
             return;
         }
-        let selection = this.getInputSelection(ReactDOM.findDOMNode(event.target));
-        console.log(selection);
 
+        let selectionEnd = Math.min(event.target.selectionEnd, event.target.value.length - this.props.suffix.length);
+        let selectionStart = Math.min(event.target.selectionStart, selectionEnd);
+
+        console.log(selectionStart, selectionEnd );
+
+        this.theInput.setSelectionRange(selectionStart, selectionEnd)
 
     },
 
@@ -186,23 +190,6 @@ const CurrencyInput = React.createClass({
 
     },
 
-
-    getInputSelection(el) {
-        var start = 0, end = 0;
-        if (typeof el.selectionStart == "number" && typeof el.selectionEnd == "number") {
-            start = el.selectionStart;
-            end = el.selectionEnd;
-        } else {
-            //TODO Support for IE8 and below (maybe).
-
-        }
-        return {
-            start: start,
-            end: end
-        };
-    },
-
-
     /**
      * Component lifecycle function.
      * @returns {XML}
@@ -211,6 +198,7 @@ const CurrencyInput = React.createClass({
     render() {
         return (
             <input
+                ref={(input) => { this.theInput = input; }}
                 type={this.props.inputType}
                 value={this.state.maskedValue}
                 onChange={this.handleChange}
