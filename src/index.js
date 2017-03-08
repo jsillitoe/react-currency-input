@@ -32,7 +32,7 @@ const CurrencyInput = React.createClass({
      */
     getDefaultProps() {
         return {
-            onChange: function(maskValue, value, event) {/*no-op*/},
+            onChange: function(event, maskValue, value) {/*no-op*/},
             value: '0',
             decimalSeparator: '.',
             thousandSeparator: ',',
@@ -158,7 +158,7 @@ const CurrencyInput = React.createClass({
             this.props.suffix
         );
         this.setState({ maskedValue, value });
-        this.props.onChange(maskedValue, value, event);
+        this.props.onChange(event, maskedValue, value);
     },
 
 
