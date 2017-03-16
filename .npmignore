@@ -5,3 +5,4 @@ test/
 .babelrc
 .npmignore
 .gitignore
+examples/

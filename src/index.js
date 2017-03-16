@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react'
+import ReactDOM from 'react-dom'
 import mask from './mask.js'
 
 
@@ -142,6 +143,44 @@ const CurrencyInput = React.createClass({
     },
 
 
+    componentDidMount(){
+        let node = ReactDOM.findDOMNode(this.theInput);
+
+        let selectionEnd = Math.min(node.selectionEnd, this.theInput.value.length - this.props.suffix.length);
+        let selectionStart = Math.min(node.selectionStart, selectionEnd);
+        //console.log("normal", selectionStart, selectionEnd);
+        node.setSelectionRange(selectionStart, selectionEnd);
+
+    },
+
+
+    componentDidUpdate(prevProps, prevState){
+
+        let node = ReactDOM.findDOMNode(this.theInput);
+        let selectionEnd = Math.min(this.state.selectionEnd, this.theInput.value.length - this.props.suffix.length);
+        let selectionStart = Math.min(this.state.selectionStart, selectionEnd);
+
+        // moves the cursor to the right when digits are added.
+        let adjustment = Math.max(this.state.maskedValue.length - prevState.maskedValue.length - 1, 0);
+
+        let baselength = this.props.suffix.length
+            + this.props.prefix.length
+            + this.props.decimalSeparator.length
+            + Number(this.props.precision)
+            + 1; // This is to account for the default '0' value that comes before the decimal separator
+
+        if (this.state.maskedValue.length == baselength){
+            // if we are already at base length, position the cursor at the end.
+            selectionEnd = this.theInput.value.length - this.props.suffix.length;
+            selectionStart = selectionEnd;
+            adjustment = 0;
+        }
+
+        node.setSelectionRange(selectionStart + adjustment, selectionEnd + adjustment);
+
+    },
+
+
     /**
      * onChange Event Handler
      * @param event
@@ -157,11 +196,37 @@ const CurrencyInput = React.createClass({
             this.props.prefix,
             this.props.suffix
         );
+
+        let node = ReactDOM.findDOMNode(this.theInput);
+        let selectionEnd = Math.min(node.selectionEnd, this.theInput.value.length - this.props.suffix.length);
+        let selectionStart = Math.min(node.selectionStart, selectionEnd);
+
         this.setState({ maskedValue, value }, () => {
             this.props.onChange(maskedValue, value, event);
         });
     },
 
+    /**
+     * onFocus Event Handler
+     * @param event
+     */
+    handleFocus(event) {
+        //Whenever we receive focus check to see if the position is before the suffix, if not, move it.
+        let selectionEnd = this.theInput.value.length - this.props.suffix.length;
+        let selectionStart = this.props.prefix.length;
+        console.log(selectionStart, selectionEnd);
+        event.target.setSelectionRange(selectionStart, selectionEnd);
+        this.setState( { selectionStart, selectionEnd} );
+    },
+
+
+    handleBlur(event) {
+        this.setState({
+            selectionStart: null,
+            selectionEnd: null
+        });
+
+    },
 
     /**
      * Component lifecycle function.
@@ -171,9 +236,12 @@ const CurrencyInput = React.createClass({
     render() {
         return (
             <input
+                ref={(input) => { this.theInput = input; }}
                 type={this.props.inputType}
                 value={this.state.maskedValue}
                 onChange={this.handleChange}
+                onFocus={this.handleFocus}
+                onMouseUp={this.handleFocus}
                 {...this.state.customProps}
             />
         )
