@@ -157,8 +157,9 @@ const CurrencyInput = React.createClass({
             this.props.prefix,
             this.props.suffix
         );
-        this.setState({ maskedValue, value });
-        this.props.onChange(maskedValue, value, event);
+        this.setState({ maskedValue, value }, () => {
+            this.props.onChange(maskedValue, value, event);
+        });
     },
 
 
