@@ -34,7 +34,7 @@ const MyApp = React.createClass({
             </div>
         );
     }
-}
+});
 export default MyApp
 ```
 
@@ -57,7 +57,7 @@ const MyApp = React.createClass({
             </form>
         );
     }
-}
+});
 export default MyApp
 ```
 
