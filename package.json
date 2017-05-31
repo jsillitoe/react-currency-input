@@ -34,6 +34,7 @@
   },
   "homepage": "https://github.com/jsillitoe/react-currency-input#readme",
   "dependencies": {
+    "prop-types": "^15.5.10",
     "react": ">=0.14.0 || >=15.0.0"
   },
   "devDependencies": {

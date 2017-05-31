@@ -3,14 +3,14 @@ export default function mask(value, precision = 2, decimalSeparator = '.', thous
     // provide some default values and arg validation.
     if (precision < 0) { precision = 0; } // precision cannot be negative
     if (precision > 20) { precision = 20; } // precision cannot be greater than 20
-    
+
     if (value === null || value===undefined) {
           return {
               value: 0,
               maskedValue: ''
           };
      }
-  
+
     value = String(value); //if the given value is a Number, let's convert into String to manipulate that
 
     if (value.length == 0) {
@@ -23,7 +23,7 @@ export default function mask(value, precision = 2, decimalSeparator = '.', thous
 
     // extract digits. if no digits, fill in a zero.
     let digits = value.match(/\d/g) || ['0'];
-    
+
     let numberIsNegative = false;
     if (allowNegative) {
         let negativeSignCount = (value.match(/-/g) || []).length;
@@ -31,7 +31,7 @@ export default function mask(value, precision = 2, decimalSeparator = '.', thous
         // ideally, we should only ever have 0, 1 or 2 (positive number, making a number negative
         // and making a negative number positive, respectively)
         numberIsNegative = negativeSignCount % 2 === 1;
-        
+
         // if every digit in the array is '0', then the number should never be negative
         let allDigitsAreZero = true;
         for (let idx=0; idx < digits.length; idx += 1) {
