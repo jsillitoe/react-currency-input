@@ -1,49 +1,16 @@
-import React, { PropTypes } from 'react'
+import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import PropTypes from 'prop-types';
 import mask from './mask.js'
 
+class CurrencyInput extends Component {
+    constructor(props) {
+        super(props);
+        this.state = this.prepareProps(this.props);
 
-const CurrencyInput = React.createClass({
-
-    /**
-     * Prop validation.
-     * @see https://facebook.github.io/react/docs/component-specs.html#proptypes
-     */
-    propTypes: {
-        onChange: PropTypes.func,
-        value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-        decimalSeparator: PropTypes.string,
-        thousandSeparator: PropTypes.string,
-        precision: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-        inputType: PropTypes.string,
-        allowNegative: PropTypes.bool,
-        allowEmpty: PropTypes.bool,
-        prefix: PropTypes.string,
-        suffix: PropTypes.string
-    },
-
-
-    /**
-     * Component lifecycle function.
-     *
-     * Invoked once and cached when the class is created. Values in the mapping will be set on this.props if that
-     * prop is not specified by the parent component
-     *
-     * @see https://facebook.github.io/react/docs/component-specs.html#getdefaultprops
-     */
-    getDefaultProps() {
-        return {
-            onChange: function(maskValue, value, event) {/*no-op*/},
-            value: '0',
-            decimalSeparator: '.',
-            thousandSeparator: ',',
-            precision: '2',
-            inputType: 'text',
-            allowNegative: false,
-            prefix: '',
-            suffix: ''
-        }
-    },
+        this.prepareProps = this.prepareProps.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+    }
 
     /**
      * General function used to cleanup and define the final props used for rendering
@@ -107,19 +74,7 @@ const CurrencyInput = React.createClass({
         );
 
         return { maskedValue, value, customProps };
-    },
-
-    /**
-     * Component lifecycle function.
-     * Invoked once before the component is mounted. The return value will be used as the initial value of this.state
-     *
-     * @returns {{ maskedValue: {String}, value: {Number}, customProps: {Object} }}
-     * @see https://facebook.github.io/react/docs/component-specs.html#getinitialstate
-     */
-    getInitialState() {
-        return this.prepareProps(this.props);
-    },
-
+    }
 
     /**
      * Component lifecycle function.
@@ -130,7 +85,7 @@ const CurrencyInput = React.createClass({
      */
     componentWillReceiveProps(nextProps) {
         this.setState(this.prepareProps(nextProps));
-    },
+    }
 
 
     /**
@@ -140,7 +95,7 @@ const CurrencyInput = React.createClass({
      */
     getMaskedValue() {
         return this.state.maskedValue;
-    },
+    }
 
 
     componentDidMount(){
@@ -151,7 +106,7 @@ const CurrencyInput = React.createClass({
         //console.log("normal", selectionStart, selectionEnd);
         node.setSelectionRange(selectionStart, selectionEnd);
 
-    },
+    }
 
 
     componentDidUpdate(prevProps, prevState){
@@ -178,7 +133,7 @@ const CurrencyInput = React.createClass({
 
         node.setSelectionRange(selectionStart + adjustment, selectionEnd + adjustment);
 
-    },
+    }
 
 
     /**
@@ -204,7 +159,7 @@ const CurrencyInput = React.createClass({
         this.setState({ maskedValue, value }, () => {
             this.props.onChange(maskedValue, value, event);
         });
-    },
+    }
 
     /**
      * onFocus Event Handler
@@ -217,7 +172,7 @@ const CurrencyInput = React.createClass({
         console.log(selectionStart, selectionEnd);
         event.target.setSelectionRange(selectionStart, selectionEnd);
         this.setState( { selectionStart, selectionEnd} );
-    },
+    }
 
 
     handleBlur(event) {
@@ -226,7 +181,7 @@ const CurrencyInput = React.createClass({
             selectionEnd: null
         });
 
-    },
+    }
 
     /**
      * Component lifecycle function.
@@ -246,7 +201,36 @@ const CurrencyInput = React.createClass({
             />
         )
     }
-});
+}
 
+/**
+ * Prop validation.
+ * @see https://facebook.github.io/react/docs/component-specs.html#proptypes
+ */
+
+CurrencyInput.propTypes = {
+    onChange: PropTypes.func,
+    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    decimalSeparator: PropTypes.string,
+    thousandSeparator: PropTypes.string,
+    precision: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    inputType: PropTypes.string,
+    allowNegative: PropTypes.bool,
+    allowEmpty: PropTypes.bool,
+    prefix: PropTypes.string,
+    suffix: PropTypes.string
+};
+
+CurrencyInput.defaultProps = {
+    onChange: function(maskValue, value, event) {/*no-op*/},
+    value: '0',
+    decimalSeparator: '.',
+    thousandSeparator: ',',
+    precision: '2',
+    inputType: 'text',
+    allowNegative: false,
+    prefix: '',
+    suffix: ''
+}
 
 export default CurrencyInput
