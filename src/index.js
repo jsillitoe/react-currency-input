@@ -2,6 +2,9 @@ import React, { PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 import mask from './mask.js'
 
+// IE* parseFloat polyfill
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/parseFloat#Polyfill
+Number.parseFloat = parseFloat;
 
 const CurrencyInput = React.createClass({
 
