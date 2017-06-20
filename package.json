@@ -49,6 +49,7 @@
     "eslint": "^2.13.1",
     "jsdom": "^9.2.1",
     "mocha": "^2.5.3",
+    "prop-types": "^15.5.9",
     "react-addons-test-utils": "^15.1.0",
     "react-dom": "^15.1.0",
     "rimraf": "^2.5.2",
