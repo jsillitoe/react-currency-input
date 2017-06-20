@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react'
+import React, { Component }  from 'react'
 import ReactDOM from 'react-dom'
 import mask from './mask.js'
 
@@ -7,47 +7,24 @@ import mask from './mask.js'
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/parseFloat#Polyfill
 Number.parseFloat = parseFloat;
 
-const CurrencyInput = React.createClass({
-
-    /**
-     * Prop validation.
-     * @see https://facebook.github.io/react/docs/component-specs.html#proptypes
-     */
-    propTypes: {
-        onChange: PropTypes.func,
-        value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-        decimalSeparator: PropTypes.string,
-        thousandSeparator: PropTypes.string,
-        precision: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-        inputType: PropTypes.string,
-        allowNegative: PropTypes.bool,
-        allowEmpty: PropTypes.bool,
-        prefix: PropTypes.string,
-        suffix: PropTypes.string
-    },
+class CurrencyInput extends Component {
+    constructor(props) {
+        super(props);
+        this.prepareProps = this.prepareProps.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.state = this.prepareProps(this.props);
+    }
 
 
     /**
-     * Component lifecycle function.
+     * Exposes the current masked value.
      *
-     * Invoked once and cached when the class is created. Values in the mapping will be set on this.props if that
-     * prop is not specified by the parent component
-     *
-     * @see https://facebook.github.io/react/docs/component-specs.html#getdefaultprops
+     * @returns {String}
      */
-    getDefaultProps() {
-        return {
-            onChange: function(maskValue, value, event) {/*no-op*/},
-            value: '0',
-            decimalSeparator: '.',
-            thousandSeparator: ',',
-            precision: '2',
-            inputType: 'text',
-            allowNegative: false,
-            prefix: '',
-            suffix: ''
-        }
-    },
+    getMaskedValue() {
+        return this.state.maskedValue;
+    }
+
 
     /**
      * General function used to cleanup and define the final props used for rendering
@@ -111,18 +88,7 @@ const CurrencyInput = React.createClass({
         );
 
         return { maskedValue, value, customProps };
-    },
-
-    /**
-     * Component lifecycle function.
-     * Invoked once before the component is mounted. The return value will be used as the initial value of this.state
-     *
-     * @returns {{ maskedValue: {String}, value: {Number}, customProps: {Object} }}
-     * @see https://facebook.github.io/react/docs/component-specs.html#getinitialstate
-     */
-    getInitialState() {
-        return this.prepareProps(this.props);
-    },
+    }
 
 
     /**
@@ -134,19 +100,14 @@ const CurrencyInput = React.createClass({
      */
     componentWillReceiveProps(nextProps) {
         this.setState(this.prepareProps(nextProps));
-    },
+    }
 
 
     /**
-     * Exposes the current masked value.
-     *
-     * @returns {String}
+     * Component lifecycle function.
+     * @returns {XML}
+     * @see https://facebook.github.io/react/docs/react-component.html#componentdidmount
      */
-    getMaskedValue() {
-        return this.state.maskedValue;
-    },
-
-
     componentDidMount(){
         let node = ReactDOM.findDOMNode(this.theInput);
 
@@ -155,9 +116,14 @@ const CurrencyInput = React.createClass({
         //console.log("normal", selectionStart, selectionEnd);
         node.setSelectionRange(selectionStart, selectionEnd);
 
-    },
+    }
 
 
+    /**
+     * Component lifecycle function.
+     * @returns {XML}
+     * @see https://facebook.github.io/react/docs/react-component.html#componentdidupdate
+     */
     componentDidUpdate(prevProps, prevState){
 
         let node = ReactDOM.findDOMNode(this.theInput);
@@ -182,7 +148,7 @@ const CurrencyInput = React.createClass({
 
         node.setSelectionRange(selectionStart + adjustment, selectionEnd + adjustment);
 
-    },
+    }
 
 
     /**
@@ -208,7 +174,8 @@ const CurrencyInput = React.createClass({
         this.setState({ maskedValue, value }, () => {
             this.props.onChange(maskedValue, value, event);
         });
-    },
+    }
+
 
     /**
      * onFocus Event Handler
@@ -221,7 +188,7 @@ const CurrencyInput = React.createClass({
         console.log(selectionStart, selectionEnd);
         event.target.setSelectionRange(selectionStart, selectionEnd);
         this.setState( { selectionStart, selectionEnd} );
-    },
+    }
 
 
     handleBlur(event) {
@@ -229,8 +196,8 @@ const CurrencyInput = React.createClass({
             selectionStart: null,
             selectionEnd: null
         });
+    }
 
-    },
 
     /**
      * Component lifecycle function.
@@ -250,7 +217,40 @@ const CurrencyInput = React.createClass({
             />
         )
     }
-});
+}
+
+
+
+/**
+ * Prop validation.
+ * @see https://facebook.github.io/react/docs/component-specs.html#proptypes
+ */
+
+CurrencyInput.propTypes = {
+    onChange: PropTypes.func,
+    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    decimalSeparator: PropTypes.string,
+    thousandSeparator: PropTypes.string,
+    precision: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    inputType: PropTypes.string,
+    allowNegative: PropTypes.bool,
+    allowEmpty: PropTypes.bool,
+    prefix: PropTypes.string,
+    suffix: PropTypes.string
+};
+
+
+CurrencyInput.defaultProps = {
+    onChange: function(maskValue, value, event) {/*no-op*/},
+    value: '0',
+    decimalSeparator: '.',
+    thousandSeparator: ',',
+    precision: '2',
+    inputType: 'text',
+    allowNegative: false,
+    prefix: '',
+    suffix: ''
+};
 
 
 export default CurrencyInput

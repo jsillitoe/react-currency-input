@@ -1,6 +1,6 @@
 {
   "name": "react-currency-input",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "description": "React component for inputing currency amounts",
   "main": "lib/index.js",
   "scripts": {
@@ -34,7 +34,9 @@
   },
   "homepage": "https://github.com/jsillitoe/react-currency-input#readme",
   "dependencies": {
-    "react": ">=0.14.0 || >=15.0.0"
+    "react": "^15.5.0",
+    "react-dom": "^15.5.0",
+    "prop-types": "^15.5.0"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",

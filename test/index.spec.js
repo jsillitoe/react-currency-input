@@ -3,7 +3,7 @@ import chai, {expect} from 'chai'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
 import CurrencyInput from '../src/index'
-import ReactTestUtils from 'react-addons-test-utils'
+import ReactTestUtils from 'react-dom/test-utils';
 import setup from './setup'
 
 chai.use(sinonChai);
