@@ -101,6 +101,20 @@ describe('react-currency-input', function(){
             expect (renderedComponent.getMaskedValue()).to.equal('1,234,568')
         });
 
+        it('it handles initial value as the integer 0,', function() {
+            var renderedComponent = ReactTestUtils.renderIntoDocument(
+                <CurrencyInput value={0} />
+            );
+            expect (renderedComponent.getMaskedValue()).to.equal('0.00')
+        });
+
+        it('it handles initial value as the float 0.00,', function() {
+            var renderedComponent = ReactTestUtils.renderIntoDocument(
+                <CurrencyInput value={0.00} />
+            );
+            expect (renderedComponent.getMaskedValue()).to.equal('0.00')
+        });
+
     });
 
 

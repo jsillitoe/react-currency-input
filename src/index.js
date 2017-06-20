@@ -44,7 +44,7 @@ class CurrencyInput extends Component {
         delete customProps.suffix;
 
         let initialValue = props.value;
-        if (!initialValue) {
+        if (initialValue === null) {
             initialValue = props.allowEmpty? null : '';
         }else{
 

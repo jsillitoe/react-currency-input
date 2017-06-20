@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom';
 import CurrencyInput from '../src/index';
 
 
+ReactDOM.render(<CurrencyInput value={0.0}/>, document.getElementById('example0'));
 
 ReactDOM.render(<CurrencyInput suffix=" kr"/>, document.getElementById('example1'));
 
