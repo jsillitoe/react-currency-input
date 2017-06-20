@@ -171,6 +171,8 @@ class CurrencyInput extends Component {
         let selectionEnd = Math.min(node.selectionEnd, this.theInput.value.length - this.props.suffix.length);
         let selectionStart = Math.min(node.selectionStart, selectionEnd);
 
+        event.persist();  // fixes issue #23
+
         this.setState({ maskedValue, value }, () => {
             this.props.onChange(maskedValue, value, event);
         });
