@@ -5,6 +5,16 @@ An es6 react component for currency.  Supports custom decimal and thousand separ
 [![Build Status](https://travis-ci.org/jsillitoe/react-currency-input.svg?branch=master)](https://travis-ci.org/jsillitoe/react-currency-input)
 
 
+## Changes
+
+V1.3.0:
+-------
+* Depecrated "onChange" option in favor of "onChangeEvent".  This fixes the argument order to better match React's default input handling
+* Updated dependencies to React 15
+* Added parseFloat polyfill
+* Persist events to deal with an issue of event pooling
+* Other bug fixes.
+
 ## Installation
 ```
 npm install react-currency-input --save
@@ -24,13 +34,13 @@ const MyApp = React.createClass({
         return ({amount: "0.00"});
     },
   
-    handleChange(newValue){
-        this.setState({amount: newValue});
+    handleChange(event, maskedvalue, floatvalue){
+        this.setState({amount: maskedvalue});
     },
     render() {
         return (
             <div>
-                <CurrencyInput value={this.state.amount} onChange={this.handleChange}/>
+                <CurrencyInput value={this.state.amount} onChangeEvent={this.handleChange}/>
             </div>
         );
     }
@@ -121,7 +131,8 @@ All other attributes are applied to the input element.  For example, you can int
 | Option            | Default Value | Description          |
 | -------------     | -----------   | -----------           |
 | value             | 0             | The initial currency value |
-| onChange          | n/a           | Callback function to handle value changes |
+| onChange          | n/a           | Callback function to handle value changes.  Deprecated,  use onChangeEvent. |
+| onChangeEvent     | n/a           | Callback function to handle value changes |
 | precision         | 2             | Number of digits after the decimal separator |
 | decimalSeparator  | '.'           | The decimal separator |
 | thousandSeparator | ','           | The thousand separator |

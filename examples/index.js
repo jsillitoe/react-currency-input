@@ -20,4 +20,5 @@ ReactDOM.render(<CurrencyInput prefix="$" precision="0"/>, document.getElementBy
 
 ReactDOM.render(<CurrencyInput prefix="$" suffix=" kr"/>, document.getElementById('example5'));
 
+ReactDOM.render(<CurrencyInput value="1" allowNegative={true}/>, document.getElementById('example6'));
 

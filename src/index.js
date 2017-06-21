@@ -175,6 +175,7 @@ class CurrencyInput extends Component {
 
         this.setState({ maskedValue, value }, () => {
             this.props.onChange(maskedValue, value, event);
+            this.props.onChangeEvent(event, maskedValue, value);
         });
     }
 
@@ -244,6 +245,7 @@ CurrencyInput.propTypes = {
 
 CurrencyInput.defaultProps = {
     onChange: function(maskValue, value, event) {/*no-op*/},
+    onChangeEvent: function(event, maskValue, value) {/*no-op*/},
     value: '0',
     decimalSeparator: '.',
     thousandSeparator: ',',
