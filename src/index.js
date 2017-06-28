@@ -33,6 +33,7 @@ class CurrencyInput extends Component {
     prepareProps(props) {
         let customProps = {...props}; // babeljs converts to Object.assign, then polyfills.
         delete customProps.onChange;
+        delete customProps.onChangeEvent;
         delete customProps.value;
         delete customProps.decimalSeparator;
         delete customProps.thousandSeparator;
