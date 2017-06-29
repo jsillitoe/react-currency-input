@@ -12,6 +12,7 @@ class CurrencyInput extends Component {
         super(props);
         this.prepareProps = this.prepareProps.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleFocus = this.handleFocus.bind(this);
         this.state = this.prepareProps(this.props);
     }
 
