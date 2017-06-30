@@ -190,7 +190,6 @@ class CurrencyInput extends Component {
         //Whenever we receive focus check to see if the position is before the suffix, if not, move it.
         let selectionEnd = this.theInput.value.length - this.props.suffix.length;
         let selectionStart = this.props.prefix.length;
-        console.log(selectionStart, selectionEnd);
         event.target.setSelectionRange(selectionStart, selectionEnd);
         this.setState( { selectionStart, selectionEnd} );
     }
