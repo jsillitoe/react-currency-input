@@ -3,6 +3,7 @@ import chai, {expect} from 'chai'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
 import CurrencyInput from '../src/index'
+import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import setup from './setup'
 
@@ -391,5 +392,63 @@ describe('react-currency-input', function(){
         });
 
     });
+
+    // describe('input selection', function() {
+
+    //     before('render and locate element', function() {
+    //         this.prefix = '$';
+    //         this.prefixLength = this.prefix.length;
+    //         this.suffix = ' s';
+    //         this.suffixLenght = this.suffix.length;
+
+    //         this.divElem = document.createElement('div');
+    //         document.body.appendChild(this.divElem);
+    //         this.renderedComponent = ReactDOM.render(
+    //             <CurrencyInput onChange={this.handleChange} value="0" allowNegative={true} prefix={this.prefix} suffix={this.suffix} />,
+    //             this.divElem
+    //         );
+
+    //         this.inputComponent = ReactTestUtils.findRenderedDOMComponentWithTag(
+    //             this.renderedComponent,
+    //             'input'
+    //         );
+    //     });
+
+    //     beforeEach('reset value to 0', function() {
+    //         this.inputComponent.value = "0";
+    //         ReactTestUtils.Simulate.change(this.inputComponent);
+    //     });
+
+    //     after('clean up dom', function() {
+    //         document.body.removeChild(this.divElem);
+    //     });
+
+    //     it('sanity - renders "$0.00 s"', function() {
+    //         expect(this.renderedComponent.getMaskedValue()).to.equal('$0.00 s');
+    //     });
+
+    //     it('should highlight number on focus', function() {
+    //         ReactTestUtils.Simulate.focus(this.inputComponent);
+    //         expect(this.inputComponent.selectionStart).to.equal(1);
+    //         expect(this.inputComponent.selectionEnd).to.equal(5);
+    //     });
+
+    //     it('should consider the negative sign when highlighting', function() {
+    //         this.inputComponent.value = '-4.35'; ReactTestUtils.Simulate.change(this.inputComponent);
+    //         ReactTestUtils.Simulate.focus(this.inputComponent);
+    //         expect(this.inputComponent.selectionStart).to.equal(2);
+    //         expect(this.inputComponent.selectionEnd).to.equal(6);
+    //     });
+
+    //     it('should adjust start/end by 1 when entering a number', function() {
+    //         this.inputComponent.value = '134'; ReactTestUtils.Simulate.change(this.inputComponent);
+    //         ReactTestUtils.Simulate.focus(this.inputComponent);
+    //         this.inputComponent.setSelectionRange(1, 1);
+    //         this.inputComponent.value = '1234'; ReactTestUtils.Simulate.change(this.inputComponent);
+    //         expect(this.inputComponent.selectionStart).to.equal(2);
+    //         expect(this.inputComponent.selectionEnd).to.equal(2);
+    //     });
+
+    // });
 
 });

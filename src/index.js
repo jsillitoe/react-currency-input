@@ -14,6 +14,9 @@ class CurrencyInput extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleFocus = this.handleFocus.bind(this);
         this.state = this.prepareProps(this.props);
+
+        this.inputSelectionStart = 0;
+        this.inputSelectionEnd = 0;
     }
 
 
@@ -122,6 +125,18 @@ class CurrencyInput extends Component {
 
 
     /**
+     * Component lifecycle function
+     * @returns {XML}
+     * @see https://facebook.github.io/react/docs/react-component.html#componentwillupdate
+     */
+    componentWillUpdate() {
+        let node = ReactDOM.findDOMNode(this.theInput);
+        this.inputSelectionStart = node.selectionStart;
+        this.inputSelectionEnd = node.selectionEnd;
+    }
+
+
+    /**
      * Component lifecycle function.
      * @returns {XML}
      * @see https://facebook.github.io/react/docs/react-component.html#componentdidupdate
@@ -129,11 +144,19 @@ class CurrencyInput extends Component {
     componentDidUpdate(prevProps, prevState){
 
         let node = ReactDOM.findDOMNode(this.theInput);
-        let selectionEnd = Math.min(this.state.selectionEnd, this.theInput.value.length - this.props.suffix.length);
-        let selectionStart = Math.min(this.state.selectionStart, selectionEnd);
+        let isNegative = (this.theInput.value.match(/-/g) || []).length % 2 === 1;
+        let minPos = this.props.prefix.length + (isNegative ? 1 : 0);
+        let selectionEnd = Math.max(minPos, Math.min(this.inputSelectionEnd, this.theInput.value.length - this.props.suffix.length));
+        let selectionStart = Math.max(minPos, Math.min(this.inputSelectionEnd, selectionEnd));
 
-        // moves the cursor to the right when digits are added.
-        let adjustment = Math.max(this.state.maskedValue.length - prevState.maskedValue.length - 1, 0);
+        let regexEscapeRegex = /[-[\]{}()*+?.,\\^$|#\s]/g;
+        let separatorsRegex = new RegExp(this.props.decimalSeparator.replace(regexEscapeRegex, '\\$&') + '|' + this.props.thousandSeparator.replace(regexEscapeRegex, '\\$&'), 'g');
+        let currSeparatorCount = (this.state.maskedValue.match(separatorsRegex) || []).length;
+        let prevSeparatorCount = (prevState.maskedValue.match(separatorsRegex) || []).length;
+        let adjustment = Math.max(currSeparatorCount - prevSeparatorCount, 0);
+
+        selectionEnd = selectionEnd + adjustment;
+        selectionStart = selectionStart + adjustment;
 
         let baselength = this.props.suffix.length
             + this.props.prefix.length
@@ -145,11 +168,11 @@ class CurrencyInput extends Component {
             // if we are already at base length, position the cursor at the end.
             selectionEnd = this.theInput.value.length - this.props.suffix.length;
             selectionStart = selectionEnd;
-            adjustment = 0;
         }
 
-        node.setSelectionRange(selectionStart + adjustment, selectionEnd + adjustment);
-
+        node.setSelectionRange(selectionStart, selectionEnd);
+        this.inputSelectionStart = selectionStart;
+        this.inputSelectionEnd = selectionEnd;
     }
 
 
@@ -169,10 +192,6 @@ class CurrencyInput extends Component {
             this.props.suffix
         );
 
-        let node = ReactDOM.findDOMNode(this.theInput);
-        let selectionEnd = Math.min(node.selectionEnd, this.theInput.value.length - this.props.suffix.length);
-        let selectionStart = Math.min(node.selectionStart, selectionEnd);
-
         event.persist();  // fixes issue #23
 
         this.setState({ maskedValue, value }, () => {
@@ -189,17 +208,17 @@ class CurrencyInput extends Component {
     handleFocus(event) {
         //Whenever we receive focus check to see if the position is before the suffix, if not, move it.
         let selectionEnd = this.theInput.value.length - this.props.suffix.length;
-        let selectionStart = this.props.prefix.length;
+        let isNegative = (this.theInput.value.match(/-/g) || []).length % 2 === 1;
+        let selectionStart = this.props.prefix.length + (isNegative ? 1 : 0);
         event.target.setSelectionRange(selectionStart, selectionEnd);
-        this.setState( { selectionStart, selectionEnd} );
+        this.inputSelectionStart = selectionStart;
+        this.inputSelectionEnd = selectionEnd;
     }
 
 
     handleBlur(event) {
-        this.setState({
-            selectionStart: null,
-            selectionEnd: null
-        });
+        this.inputSelectionStart = 0;
+        this.inputSelectionEnd = 0;
     }
 
 
