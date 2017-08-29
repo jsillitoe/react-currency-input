@@ -22,3 +22,13 @@ ReactDOM.render(<CurrencyInput prefix="$" suffix=" kr"/>, document.getElementByI
 
 ReactDOM.render(<CurrencyInput value="1" allowNegative={true}/>, document.getElementById('example6'));
 
+var onChangeEvent = function(event, mask, floatValue) {
+  console.log(event)
+  console.log(mask)
+  console.log(floatValue)
+}
+
+ReactDOM.render(
+  <CurrencyInput onChangeEvent={onChangeEvent} decimalSeparator="." thousandSeparator="," />,
+  document.getElementById('example7')
+);
