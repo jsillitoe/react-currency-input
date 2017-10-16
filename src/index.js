@@ -15,8 +15,8 @@ class CurrencyInput extends Component {
         this.handleFocus = this.handleFocus.bind(this);
         this.state = this.prepareProps(this.props);
 
-        this.inputSelectionStart = 0;
-        this.inputSelectionEnd = 0;
+        this.inputSelectionStart = 1;
+        this.inputSelectionEnd = 1;
     }
 
 
@@ -47,6 +47,7 @@ class CurrencyInput extends Component {
         delete customProps.allowEmpty;
         delete customProps.prefix;
         delete customProps.suffix;
+        delete customProps.selectAllOnFocus;
 
         let initialValue = props.value;
         if (initialValue === null) {
@@ -206,11 +207,13 @@ class CurrencyInput extends Component {
      * @param event
      */
     handleFocus(event) {
+        if (!this.theInput) return;
+
         //Whenever we receive focus check to see if the position is before the suffix, if not, move it.
         let selectionEnd = this.theInput.value.length - this.props.suffix.length;
         let isNegative = (this.theInput.value.match(/-/g) || []).length % 2 === 1;
         let selectionStart = this.props.prefix.length + (isNegative ? 1 : 0);
-        event.target.setSelectionRange(selectionStart, selectionEnd);
+        this.props.selectAllOnFocus && event.target.setSelectionRange(selectionStart, selectionEnd);
         this.inputSelectionStart = selectionStart;
         this.inputSelectionEnd = selectionEnd;
     }
@@ -259,7 +262,8 @@ CurrencyInput.propTypes = {
     allowNegative: PropTypes.bool,
     allowEmpty: PropTypes.bool,
     prefix: PropTypes.string,
-    suffix: PropTypes.string
+    suffix: PropTypes.string,
+    selectAllOnFocus: PropTypes.bool
 };
 
 
@@ -273,7 +277,8 @@ CurrencyInput.defaultProps = {
     inputType: 'text',
     allowNegative: false,
     prefix: '',
-    suffix: ''
+    suffix: '',
+    selectAllOnFocus: false
 };
 
 

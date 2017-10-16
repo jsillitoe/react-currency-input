@@ -130,6 +130,7 @@ thousandSeparator | ','           | The thousand separator
 inputType         | "text"        | Input field tag type. You may want to use `number` or `tel`*
 allowNegative     | false         | Allows negative numbers in the input
 allowEmpty        | false         | If no `value` is given, defines if it starts as null (`true`) or '' (`false`)
+selectAllOnFocus  | false         | Selects all text on focus or does not
 prefix            | ''            | Currency prefix
 suffix            | ''            | Currency suffix
 
