@@ -25,7 +25,6 @@ module.exports = {
         hot: true,
         contentBase: './examples'
     },
-
     stats: {
         colors: true
     },
