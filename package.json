@@ -7,7 +7,6 @@
   "module": "lib/react-currency-input.es.js",
   "scripts": {
     "lint": "eslint src/**",
-    "babel": "babel --out-dir lib src",
     "build:umd": "cross-env NODE_ENV=umd rollup -c",
     "build:cjs": "cross-env NODE_ENV=cjs rollup -c",
     "build:es": "cross-env NODE_ENV=es rollup -c",
