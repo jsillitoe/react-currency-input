@@ -9,8 +9,8 @@
     "babel": "babel --out-dir lib src",
     "build": "npm run lib",
     "prepublish": "npm run build",
-    "build-example": "browserify example/example.js -o example/bundle.js -t [ babelify --presets [ es2015 react ] ]",
-    "test": "mocha --compilers js:babel-register ",
+    "build-example": "browserify examples/index.js -o examples/bundle.js -t [ babelify --presets [ es2015 react ] ]",
+    "test": "mocha --compilers js:babel-register",
     "webpack": "webpack",
     "webpack-dev": "webpack-dev-server"
   },
