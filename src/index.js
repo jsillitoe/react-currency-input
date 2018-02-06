@@ -50,6 +50,7 @@ class CurrencyInput extends Component {
         delete customProps.prefix;
         delete customProps.suffix;
         delete customProps.selectAllOnFocus;
+        delete customProps.autoFocus;
 
         let initialValue = props.value;
         if (initialValue === null) {
@@ -118,12 +119,18 @@ class CurrencyInput extends Component {
      */
     componentDidMount(){
         let node = ReactDOM.findDOMNode(this.theInput);
+        let selectionStart, selectionEnd;
 
-        let selectionEnd = Math.min(node.selectionEnd, this.theInput.value.length - this.props.suffix.length);
-        let selectionStart = Math.min(node.selectionStart, selectionEnd);
-        //console.log("normal", selectionStart, selectionEnd);
+        if (this.props.autoFocus) {
+            this.theInput.focus();
+            selectionEnd = this.state.maskedValue.length - this.props.suffix.length;
+            selectionStart = selectionEnd;
+        } else {
+            selectionEnd = Math.min(node.selectionEnd, this.theInput.value.length - this.props.suffix.length);
+            selectionStart = Math.min(node.selectionStart, selectionEnd);
+        }
+
         node.setSelectionRange(selectionStart, selectionEnd);
-
     }
 
 
@@ -145,7 +152,7 @@ class CurrencyInput extends Component {
      * @see https://facebook.github.io/react/docs/react-component.html#componentdidupdate
      */
     componentDidUpdate(prevProps, prevState){
-
+        const { decimalSeparator } = this.props;
         let node = ReactDOM.findDOMNode(this.theInput);
         let isNegative = (this.theInput.value.match(/-/g) || []).length % 2 === 1;
         let minPos = this.props.prefix.length + (isNegative ? 1 : 0);
@@ -153,7 +160,7 @@ class CurrencyInput extends Component {
         let selectionStart = Math.max(minPos, Math.min(this.inputSelectionEnd, selectionEnd));
 
         let regexEscapeRegex = /[-[\]{}()*+?.,\\^$|#\s]/g;
-        let separatorsRegex = new RegExp(this.props.decimalSeparator.replace(regexEscapeRegex, '\\$&') + '|' + this.props.thousandSeparator.replace(regexEscapeRegex, '\\$&'), 'g');
+        let separatorsRegex = new RegExp(decimalSeparator.replace(regexEscapeRegex, '\\$&') + '|' + this.props.thousandSeparator.replace(regexEscapeRegex, '\\$&'), 'g');
         let currSeparatorCount = (this.state.maskedValue.match(separatorsRegex) || []).length;
         let prevSeparatorCount = (prevState.maskedValue.match(separatorsRegex) || []).length;
         let adjustment = Math.max(currSeparatorCount - prevSeparatorCount, 0);
@@ -161,10 +168,12 @@ class CurrencyInput extends Component {
         selectionEnd = selectionEnd + adjustment;
         selectionStart = selectionStart + adjustment;
 
+        const precision = Number(this.props.precision);
+
         let baselength = this.props.suffix.length
             + this.props.prefix.length
-            + this.props.decimalSeparator.length
-            + Number(this.props.precision)
+            + (precision > 0 ? decimalSeparator.length : 0) // if precision is 0 there will be no decimal part
+            + precision
             + 1; // This is to account for the default '0' value that comes before the decimal separator
 
         if (this.state.maskedValue.length == baselength){
@@ -272,6 +281,7 @@ CurrencyInput.propTypes = {
 CurrencyInput.defaultProps = {
     onChange: function(maskValue, value, event) {/*no-op*/},
     onChangeEvent: function(event, maskValue, value) {/*no-op*/},
+    autoFocus: false,
     value: '0',
     decimalSeparator: '.',
     thousandSeparator: ',',

@@ -133,5 +133,6 @@ allowEmpty        | false         | If no `value` is given, defines if it starts
 selectAllOnFocus  | false         | Selects all text on focus or does not
 prefix            | ''            | Currency prefix
 suffix            | ''            | Currency suffix
+autoFocus         | false         | Autofocus
 
 ***Note:** Enabling any mask-related features such as prefix, suffix or separators with an inputType="number" or "tel" could trigger errors. Most of those characters would be invalid in such input types.

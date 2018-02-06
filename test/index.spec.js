@@ -37,14 +37,23 @@ describe('react-currency-input', function(){
             expect(this.inputComponent.getAttribute('type')).to.equal('text')
         });
 
-
+        it('does not auto-focus by default', function() {
+            expect(this.renderedComponent.props.autoFocus).to.be.false
+        });
     });
 
     describe('custom arguments', function(){
 
         before('render and locate element', function() {
             this.renderedComponent = ReactTestUtils.renderIntoDocument(
-                <CurrencyInput decimalSeparator="," thousandSeparator="." precision="3" value="123456789" inputType="tel" />
+                <CurrencyInput
+                  decimalSeparator=","
+                  thousandSeparator="."
+                  precision="3"
+                  value="123456789"
+                  inputType="tel"
+                  id="currencyInput"
+                  autoFocus={true} />
             );
 
             this.inputComponent = ReactTestUtils.findRenderedDOMComponentWithTag(
@@ -59,6 +68,11 @@ describe('react-currency-input', function(){
 
         it('<input> should be of type "tel"', function() {
             expect(this.inputComponent.getAttribute('type')).to.equal('tel')
+        });
+
+        it('should be auto focused', function() {
+          var focusedElement = document.activeElement;
+          expect(focusedElement.getAttribute('id')).to.equal("currencyInput");
         });
     });
 
@@ -393,62 +407,85 @@ describe('react-currency-input', function(){
 
     });
 
-    // describe('input selection', function() {
+    describe('input selection', function() {
+        let defaultProps = {
+            allowNegative: true,
+            handleChange: () => {},
+            value: '0',
+            prefix: '$',
+            suffix: ' s'
+        };
+        let divElem;
+        let renderComponent = function(props = {}) {
+            divElem = document.createElement('div');
+            document.body.appendChild(divElem);
 
-    //     before('render and locate element', function() {
-    //         this.prefix = '$';
-    //         this.prefixLength = this.prefix.length;
-    //         this.suffix = ' s';
-    //         this.suffixLenght = this.suffix.length;
+            const componentProps = Object.assign({}, defaultProps, props);
 
-    //         this.divElem = document.createElement('div');
-    //         document.body.appendChild(this.divElem);
-    //         this.renderedComponent = ReactDOM.render(
-    //             <CurrencyInput onChange={this.handleChange} value="0" allowNegative={true} prefix={this.prefix} suffix={this.suffix} />,
-    //             this.divElem
-    //         );
+            const renderedComponent = ReactDOM.render(
+                <CurrencyInput {...componentProps} />,
+                divElem
+            );
+            const inputComponent = ReactTestUtils.findRenderedDOMComponentWithTag(
+                renderedComponent,
+                'input'
+            );
 
-    //         this.inputComponent = ReactTestUtils.findRenderedDOMComponentWithTag(
-    //             this.renderedComponent,
-    //             'input'
-    //         );
-    //     });
+            inputComponent.value = "0";
+            ReactTestUtils.Simulate.change(inputComponent);
 
-    //     beforeEach('reset value to 0', function() {
-    //         this.inputComponent.value = "0";
-    //         ReactTestUtils.Simulate.change(this.inputComponent);
-    //     });
+            return { renderedComponent, inputComponent };
+        };
 
-    //     after('clean up dom', function() {
-    //         document.body.removeChild(this.divElem);
-    //     });
+        after('clean up dom', function() {
+            document.body.removeChild(divElem);
+        });
 
-    //     it('sanity - renders "$0.00 s"', function() {
-    //         expect(this.renderedComponent.getMaskedValue()).to.equal('$0.00 s');
-    //     });
+        it('sanity - renders "$0.00 s"', function() {
+            const { renderedComponent } = renderComponent();
+            expect(renderedComponent.getMaskedValue()).to.equal('$0.00 s');
+        });
 
-    //     it('should highlight number on focus', function() {
-    //         ReactTestUtils.Simulate.focus(this.inputComponent);
-    //         expect(this.inputComponent.selectionStart).to.equal(1);
-    //         expect(this.inputComponent.selectionEnd).to.equal(5);
-    //     });
+        it('should consider precision absence', function() {
+            const { inputComponent } = renderComponent({ precision: 0 });
 
-    //     it('should consider the negative sign when highlighting', function() {
-    //         this.inputComponent.value = '-4.35'; ReactTestUtils.Simulate.change(this.inputComponent);
-    //         ReactTestUtils.Simulate.focus(this.inputComponent);
-    //         expect(this.inputComponent.selectionStart).to.equal(2);
-    //         expect(this.inputComponent.selectionEnd).to.equal(6);
-    //     });
+            expect(inputComponent.selectionStart).to.equal(2);
+            expect(inputComponent.selectionEnd).to.equal(2);
+        });
 
-    //     it('should adjust start/end by 1 when entering a number', function() {
-    //         this.inputComponent.value = '134'; ReactTestUtils.Simulate.change(this.inputComponent);
-    //         ReactTestUtils.Simulate.focus(this.inputComponent);
-    //         this.inputComponent.setSelectionRange(1, 1);
-    //         this.inputComponent.value = '1234'; ReactTestUtils.Simulate.change(this.inputComponent);
-    //         expect(this.inputComponent.selectionStart).to.equal(2);
-    //         expect(this.inputComponent.selectionEnd).to.equal(2);
-    //     });
+        xit('should highlight number on focus', function() {
+            const { inputComponent } = renderComponent();
+            ReactTestUtils.Simulate.focus(inputComponent);
+            expect(inputComponent.selectionStart).to.equal(1);
+            expect(inputComponent.selectionEnd).to.equal(5);
+        });
 
-    // });
+        xit('should consider the negative sign when highlighting', function() {
+            const { inputComponent } = renderComponent();
+
+            inputComponent.value = '-4.35';
+            ReactTestUtils.Simulate.change(inputComponent);
+
+            ReactTestUtils.Simulate.focus(inputComponent);
+            expect(inputComponent.selectionStart).to.equal(2);
+            expect(inputComponent.selectionEnd).to.equal(6);
+        });
+
+        xit('should adjust start/end by 1 when entering a number', function() {
+            const { inputComponent } = renderComponent();
+
+            inputComponent.value = '134';
+            ReactTestUtils.Simulate.change(inputComponent);
+            ReactTestUtils.Simulate.focus(inputComponent);
+
+            inputComponent.setSelectionRange(1, 1);
+            inputComponent.value = '1234';
+            ReactTestUtils.Simulate.change(inputComponent);
+
+            expect(inputComponent.selectionStart).to.equal(2);
+            expect(inputComponent.selectionEnd).to.equal(2);
+        });
+
+    });
 
 });
