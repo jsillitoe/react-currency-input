@@ -78,11 +78,7 @@ class CurrencyInput extends Component {
                 // now we can parse.
                 initialValue = Number.parseFloat(initialValue);
             }
-            initialValue = Number(initialValue).toLocaleString(undefined, {
-                style                : 'decimal',
-                minimumFractionDigits: props.precision,
-                maximumFractionDigits: props.precision
-            })
+            initialValue = Number(initialValue).toFixed(props.precision);
 
         }
 

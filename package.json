@@ -79,6 +79,8 @@
     "prop-types": "15.6.0",
     "rimraf": "2.6.2",
     "sinon": "1.17.7",
-    "sinon-chai": "2.14.0"
+    "sinon-chai": "2.14.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
   }
 }
