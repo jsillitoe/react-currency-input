@@ -134,5 +134,7 @@ selectAllOnFocus  | false         | Selects all text on focus or does not
 prefix            | ''            | Currency prefix
 suffix            | ''            | Currency suffix
 autoFocus         | false         | Autofocus
+maxValue          | undefined     | Maximum input value (state won't change if input is higher)
+minValue          | undefined     | Minimum input value (state won't change if input is lower)
 
 ***Note:** Enabling any mask-related features such as prefix, suffix or separators with an inputType="number" or "tel" could trigger errors. Most of those characters would be invalid in such input types.
