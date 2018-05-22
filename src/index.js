@@ -51,6 +51,8 @@ class CurrencyInput extends Component {
         delete customProps.suffix;
         delete customProps.selectAllOnFocus;
         delete customProps.autoFocus;
+        delete customProps.maxValue;
+        delete customProps.minValue;
 
         let initialValue = props.value;
         if (initialValue === null) {
@@ -194,6 +196,7 @@ class CurrencyInput extends Component {
      */
     handleChange(event) {
         event.preventDefault();
+
         let { maskedValue, value } = mask(
             event.target.value,
             this.props.precision,
@@ -203,6 +206,12 @@ class CurrencyInput extends Component {
             this.props.prefix,
             this.props.suffix
         );
+
+        if ((this.props.maxValue && value > this.props.maxValue)
+            || (this.props.minValue && value < this.props.maxValue)) {
+            // if value exceeds min & max limits, do nothing...
+            return;
+        }
 
         event.persist();  // fixes issue #23
 
@@ -290,7 +299,9 @@ CurrencyInput.defaultProps = {
     allowNegative: false,
     prefix: '',
     suffix: '',
-    selectAllOnFocus: false
+    selectAllOnFocus: false,
+    maxValue: undefined,
+    minValue: undefined
 };
 
 
