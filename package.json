@@ -69,6 +69,8 @@
   },
   "dependencies": {
     "jsdom": "^9.12.0",
-    "prop-types": "^15.6.0"
+    "prop-types": "^15.6.0",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
   }
 }
