@@ -12,10 +12,12 @@ Number.parseFloat = parseFloat;
 class CurrencyInput extends Component {
     constructor(props) {
         super(props);
+
         this.prepareProps = this.prepareProps.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleFocus = this.handleFocus.bind(this);
         this.setSelectionRange = this.setSelectionRange.bind(this);
+
         this.state = this.prepareProps(this.props);
 
         this.inputSelectionStart = 1;
@@ -52,9 +54,11 @@ class CurrencyInput extends Component {
         delete customProps.suffix;
         delete customProps.selectAllOnFocus;
         delete customProps.autoFocus;
+        delete customProps.maxValue;
+        delete customProps.minValue;
 
         let initialValue = props.value;
-        if (initialValue === null) {
+        if (initialValue == null) {
             initialValue = props.allowEmpty? null : '';
         }else{
 
@@ -217,6 +221,12 @@ class CurrencyInput extends Component {
             this.props.suffix
         );
 
+        if ((this.props.maxValue && value > this.props.maxValue)
+              || (this.props.minValue && value < this.props.maxValue)) {
+            // if value exceeds min & max limits, do nothing...
+            return;
+        }
+
         event.persist();  // fixes issue #23
 
         this.setState({ maskedValue, value }, () => {
@@ -287,7 +297,9 @@ CurrencyInput.propTypes = {
     allowEmpty: PropTypes.bool,
     prefix: PropTypes.string,
     suffix: PropTypes.string,
-    selectAllOnFocus: PropTypes.bool
+    selectAllOnFocus: PropTypes.bool,
+    maxValue: PropTypes.number,
+    minValue: PropTypes.number
 };
 
 
@@ -303,7 +315,9 @@ CurrencyInput.defaultProps = {
     allowNegative: false,
     prefix: '',
     suffix: '',
-    selectAllOnFocus: false
+    selectAllOnFocus: false,
+    maxValue: undefined,
+    minValue: undefined
 };
 
 
