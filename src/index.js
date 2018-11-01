@@ -308,3 +308,5 @@ CurrencyInput.defaultProps = {
 
 
 export default CurrencyInput
+
+export { mask };
