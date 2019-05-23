@@ -53,6 +53,7 @@ describe('react-currency-input', function(){
                   value="123456789"
                   inputType="tel"
                   id="currencyInput"
+                  placeHolder='placeHolderText'
                   autoFocus={true} />
             );
 
