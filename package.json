@@ -68,7 +68,7 @@
     "webpack-dev-server": "2.4.1"
   },
   "dependencies": {
-    "jsdom": "^9.12.0",
+    "jsdom": "^16.5.0",
     "prop-types": "^15.6.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1"
