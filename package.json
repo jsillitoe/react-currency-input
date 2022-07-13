@@ -13,7 +13,7 @@
     "build": "rimraf lib && npm run build:umd && npm run build:cjs && npm run build:es",
     "prepublish": "npm run build",
     "build-example": "browserify examples/index.js -o examples/bundle.js -t [ babelify --presets [ es2015 react ] ]",
-    "test": "mocha --compilers js:babel-register",
+    "test": "mocha --require babel-core/register",
     "webpack": "webpack",
     "webpack-dev": "webpack-dev-server"
   },
