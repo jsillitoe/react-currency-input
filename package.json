@@ -65,7 +65,7 @@
     "sinon": "^1.17.4",
     "sinon-chai": "^2.8.0",
     "webpack": "2.2.1",
-    "webpack-dev-server": "2.4.1"
+    "webpack-dev-server": "4.9.3"
   },
   "dependencies": {
     "jsdom": "^9.12.0",
