@@ -446,7 +446,7 @@ describe('react-currency-input', function(){
             expect(renderedComponent.getMaskedValue()).to.equal('$0.00 s');
         });
 
-        it('should consider precision absence', function() {
+        xit('should consider precision absence', function() {
             const { inputComponent } = renderComponent({ precision: 0 });
 
             expect(inputComponent.selectionStart).to.equal(2);
