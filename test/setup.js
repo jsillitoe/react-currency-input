@@ -5,6 +5,3 @@ export default function setup(markup){
     global.window = dom.window;
     global.document = dom.window.document;
 }
-
-
-
